@@ -1,0 +1,33 @@
+{
+  "name": "refactored-happiness",
+  "version": "0.0.0-development",
+  "description": "A headless Discord-RPC client for Destiny 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louis-bompart/refactored-happiness.git"
+  },
+  "author": "Louis Bompart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/louis-bompart/refactored-happiness/issues"
+  },
+  "homepage": "https://github.com/louis-bompart/refactored-happiness#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0",
+    "semantic-release": "^15.13.18"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
