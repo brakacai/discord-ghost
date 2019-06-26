@@ -1,3 +1,16 @@
 language: node_js
 node_js:
   - "lts/*"
+
+jobs:
+  include:
+    # Define the release stage that runs semantic-release
+    - stage: Rlease
+      node_js: lts/*
+      # Advanced: optionally overwrite your default `script` step to skip the tests
+      # script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release
