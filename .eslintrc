@@ -5,5 +5,11 @@
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/@typescript-eslint"
-  ]
+  ],
+  "rules": {
+    "eol-last": "error",
+    "linebreak-style": ["error", "unix"],
+    "prefer-const": "error",
+    "no-var": "error"
+  }
 }

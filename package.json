@@ -17,15 +17,25 @@
     "url": "https://github.com/louis-bompart/refactored-happiness/issues"
   },
   "homepage": "https://github.com/louis-bompart/refactored-happiness#readme",
-  "dependencies": {},
+  "dependencies": {
+    "discord-rpc": "^3.0.2",
+    "request": "^2.88.0"
+  },
   "devDependencies": {
+    "@types/discord-rpc": "^3.0.1",
+    "@types/inquirer": "^6.0.3",
+    "@types/node": "^12.0.10",
+    "@types/request": "^2.48.1",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
+    "bungie-api-ts": "^2.0.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
+    "inquirer": "^6.4.1",
     "prettier": "^1.18.2",
-    "semantic-release": "^15.13.18"
+    "semantic-release": "^15.13.18",
+    "typescript": "^3.5.2"
   },
   "config": {
     "commitizen": {
