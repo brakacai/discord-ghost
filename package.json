@@ -3,8 +3,17 @@
   "version": "0.0.0-development",
   "description": "A headless Discord-RPC client for Destiny 2",
   "main": "index.js",
+  "preview": true,
+  "engines": {
+    "node": ">=10.x"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "nyc mocha",
+    "build": "rimraf dist && tsc",
+    "start": "node ./dist/index.js",
+    "lint": "prettier --check \"{{test,src}/**/*.ts,*.js}\" && eslint \"{{test,src}/**/*.ts,*.js}\"",
+    "lint-fix": "prettier --write \"{{test,src}/**/*.ts,*.js}\" && eslint --fix \"{{test,src}/**/*.ts,*.js}\"",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -22,19 +31,30 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/discord-rpc": "^3.0.1",
     "@types/inquirer": "^6.0.3",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/request": "^2.48.1",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
     "bungie-api-ts": "^2.0.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.4",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
+    "husky": "^2.4.1",
     "inquirer": "^6.4.1",
+    "lint-staged": "^8.2.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
     "semantic-release": "^15.13.18",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^8.3.0",
     "typescript": "^3.5.2"
   },
   "config": {
@@ -48,13 +68,15 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js,css,json,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,js}": [
-      "eslint --fix",
-      "git add"
-    ]
+    "linters": {
+      "*.{ts,js,css,json,md}": [
+        "prettier --write",
+        "git add"
+      ],
+      "*.{ts,js}": [
+        "eslint --fix",
+        "git add"
+      ]
+    }
   }
 }

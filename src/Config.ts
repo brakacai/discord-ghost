@@ -22,15 +22,11 @@ type PartialConfigFileData = {
  * Config-factory. Either get one from a path, or create a new one from user inputs.
  */
 export class ConfigFile {
-  //#region Config file paths.
+  // #region Config file paths.
   private static CONFIG_FOLDER_NAME = "ghost-discord";
   private static CONFIG_FILE_NAME = "config.json";
-  private static CONFIG_FILE_PATH = path.join(
-    os.homedir(),
-    ConfigFile.CONFIG_FOLDER_NAME,
-    ConfigFile.CONFIG_FILE_NAME
-  );
-  //#endregion
+  private static CONFIG_FILE_PATH = path.join(os.homedir(), ConfigFile.CONFIG_FOLDER_NAME, ConfigFile.CONFIG_FILE_NAME);
+  // #endregion
 
   /**
    * The data of the user, useful for querying Bungie API.
@@ -43,17 +39,14 @@ export class ConfigFile {
     this._data = v;
   }
 
-  //#region Factories & constructor
+  // #region Factories & constructor
   /**
    * Create a new ConfigFile from scratch
    */
   public static async createNewConfig(): Promise<ConfigFile> {
     const answers = await ConfigFile.getInfoFromUser();
     const apiKey: string = answers.API_KEY;
-    const { playerId, platform } = await ConfigFile.getPlayerIdFromPlayerName(
-      answers.PLAYER_NAME,
-      apiKey
-    );
+    const { playerId, platform } = await ConfigFile.getPlayerIdFromPlayerName(answers.PLAYER_NAME, apiKey);
     const configFileData = {
       platform: platform,
       apiKey: apiKey,
@@ -79,11 +72,9 @@ export class ConfigFile {
     if (this.hasConfigFile(path)) {
       let configFile;
       try {
-        configFile = JSON.parse(
-          fs.readFileSync(path).toString()
-        );  
+        configFile = JSON.parse(fs.readFileSync(path).toString());
       } catch (error) {
-        console.warn(`Failed to read config file at: ${path}.`)
+        console.warn(`Failed to read config file at: ${path}.`);
       }
       if (ConfigFile.isConfigFileValid(configFile)) {
         console.log("Config file found");
@@ -102,9 +93,9 @@ export class ConfigFile {
   private constructor(configFileData: ConfigFileData) {
     this.data = configFileData;
   }
-  //#endregion
+  // #endregion
 
-  //#region File Manipulation functions
+  // #region File Manipulation functions
   /**
    * Check if the file at the configFilePath is readable.
    * @param configFilePath a path to a configFile
@@ -150,7 +141,7 @@ export class ConfigFile {
       fs.writeFileSync(this.CONFIG_FILE_PATH, JSON.stringify(configFileData));
     }
   }
-  //#endregion
+  // #endregion
 
   /**
    * Prompt some questions to the user to get his basic infos.
@@ -160,8 +151,7 @@ export class ConfigFile {
       {
         name: "API_KEY",
         type: "password",
-        message:
-          "What is your Bungie.net API-Key? (see https://bungie.net/en/Application/Create)",
+        message: "What is your Bungie.net API-Key? (see https://bungie.net/en/Application/Create)",
         mask: "*"
       },
       {
@@ -181,29 +171,20 @@ export class ConfigFile {
    * @param playerName A BattleTag/PSN ID/GamerTag/(SteamId?)
    * @param apiKey The API key to use
    */
-  private static async getPlayerIdFromPlayerName(
-    playerName: string,
-    apiKey: string
-  ): Promise<PartialConfigFileData> {
+  private static async getPlayerIdFromPlayerName(playerName: string, apiKey: string): Promise<PartialConfigFileData> {
     // Call the server and get the infos.
     const playersInfoResponse = await getFromBungie<ServerResponse<UserInfoCard[]>>(
       {
-        uri: `/Destiny2/SearchDestinyPlayer/${
-          BungieMembershipType.All
-        }/${encodeURIComponent(playerName)}`
+        uri: `/Destiny2/SearchDestinyPlayer/${BungieMembershipType.All}/${encodeURIComponent(playerName)}`
       },
       apiKey
     );
 
     // Get the platformID and playerId.
-    if (
-      playersInfoResponse.Response &&
-      playersInfoResponse.Response.length > 0
-    ) {
+    if (playersInfoResponse.Response && playersInfoResponse.Response.length > 0) {
       return {
         playerId: playersInfoResponse.Response[0].membershipId as string,
-        platform: playersInfoResponse.Response[0]
-          .membershipType as BungieMembershipType
+        platform: playersInfoResponse.Response[0].membershipType as BungieMembershipType
       };
     } else {
       throw new Error("Player not found");

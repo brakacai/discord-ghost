@@ -7,9 +7,20 @@
     "prettier/@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      { "allowExpressions": true }
+    ],
     "eol-last": "error",
     "linebreak-style": ["error", "unix"],
     "prefer-const": "error",
-    "no-var": "error"
+    "no-var": "error",
+    "multiline-comment-style": ["error", "starred-block"],
+    "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }],
+    "capitalized-comments": "error",
+    "semi": "error",
+    "quotes": "error",
+    "no-trailing-spaces": "error",
+    "no-multiple-empty-lines": "error"
   }
 }

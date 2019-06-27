@@ -1,0 +1,29 @@
+{
+  "projectName": "refactored-happiness",
+  "projectOwner": "louis-bompart",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "louis-bompart",
+      "name": "Louis Bompart",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12366410?v=4",
+      "profile": "https://github.com/louis-bompart",
+      "contributions": [
+        "code",
+        "test",
+        "projectManagement",
+        "doc",
+        "ideas",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
