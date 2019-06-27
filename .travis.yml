@@ -2,10 +2,14 @@ language: node_js
 node_js:
   - "lts/*"
 
+script:
+  - npm run lint
+  - npm test
+  - npm run coverage
 jobs:
   include:
     # Define the release stage that runs semantic-release
-    - stage: Rlease
+    - stage: Release
       node_js: lts/*
       # Advanced: optionally overwrite your default `script` step to skip the tests
       # script: skip
