@@ -55,14 +55,19 @@ export class ConfigFile {
   public static async createNewConfig(configPath: string = this.CONFIG_FILE_PATH): Promise<ConfigFile> {
     const answers = await ConfigFile.getInfoFromUser();
     const apiKey: string = answers.API_KEY;
-    const { playerId, platform } = await ConfigFile.getPlayerIdFromPlayerName(answers.PLAYER_NAME, apiKey);
-    const configFileData = {
-      platform: platform,
-      apiKey: apiKey,
-      playerId: playerId
-    };
-    ConfigFile.writeConfig(configFileData, configPath);
-    return new ConfigFile(configFileData);
+    try {
+      const { playerId, platform } = await ConfigFile.getPlayerInfoFromPlayerName(answers.PLAYER_NAME, apiKey);
+      const configFileData = {
+        platform: platform,
+        apiKey: apiKey,
+        playerId: playerId
+      };
+      ConfigFile.writeConfig(configFileData, configPath);
+
+      return new ConfigFile(configFileData);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   /**
@@ -175,7 +180,7 @@ export class ConfigFile {
    * @param playerName A BattleTag/PSN ID/GamerTag/(SteamId?)
    * @param apiKey The API key to use
    */
-  private static async getPlayerIdFromPlayerName(playerName: string, apiKey: string): Promise<PartialConfigFileData> {
+  private static async getPlayerInfoFromPlayerName(playerName: string, apiKey: string): Promise<PartialConfigFileData> {
     // Call the server and get the infos.
     const playersInfoResponse = await getFromBungie<ServerResponse<UserMembership[]>>(
       {
@@ -190,8 +195,9 @@ export class ConfigFile {
       !playersInfoResponse.Response.length ||
       playersInfoResponse.ErrorCode !== PlatformErrorCodes.Success
     ) {
-      throw new Error(`Error while getting the player.
-      ${JSON.stringify(playersInfoResponse)}`);
+      const error = new Error("Error while getting the player");
+      error.stack = JSON.stringify(playersInfoResponse);
+      throw error;
     }
 
     // Return the platformID and playerId.

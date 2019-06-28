@@ -13,7 +13,6 @@ import { ServerResponse, PlatformErrorCodes } from "bungie-api-ts/common";
 import { Stats } from "fs";
 
 use(require("sinon-chai"));
-use(require("chai-as-promised"));
 
 describe("ConfigFile", () => {
   const sandbox = Sinon.createSandbox();
@@ -67,7 +66,7 @@ describe("ConfigFile", () => {
         getFromBungieStub.returns(getFromBungieReturnValue);
       });
 
-      it("should create a new config file and return the config", async () => {
+      it("should update the config file and return the config", async () => {
         const configFile = await ConfigFile.createNewConfig("myPath");
         const expectedData = {
           platform: 0,
@@ -122,16 +121,22 @@ describe("ConfigFile", () => {
         Message: "Ok",
         MessageData: {}
       };
-      const cannotCreateError = new Error("CannotCreate");
+      let cannotCreateError: Error;
 
       before(() => {
+        cannotCreateError = new Error("CannotCreate");
         promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
         getFromBungieStub.returns(getFromBungieReturnValue);
         (ConfigFile.System.fs.accessSync as SinonStub).throws(cannotCreateError);
       });
 
-      it("should create a new config file and return the config", async () => {
-        expect(ConfigFile.createNewConfig("myPath")).to.eventually.throw(cannotCreateError);
+      it("should throw", async () => {
+        try {
+          await ConfigFile.createNewConfig("myPath");
+          expect.fail("resolved", `rejected with ${cannotCreateError}`);
+        } catch (error) {
+          expect(error).to.be.eql(cannotCreateError);
+        }
       });
     });
 
@@ -146,16 +151,23 @@ describe("ConfigFile", () => {
         Message: "NOK",
         MessageData: {}
       };
-      const ApiError = new Error(`Error while getting the player.
-      ${JSON.stringify(getFromBungieReturnValue)}`);
+      let ApiError: Error;
 
       before(() => {
+        ApiError = new Error("Error while getting the player");
+        ApiError.stack = JSON.stringify(getFromBungieReturnValue);
         promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
         getFromBungieStub.returns(getFromBungieReturnValue);
       });
 
-      it("should create a new config file and return the config", async () => {
-        expect(ConfigFile.createNewConfig("myPath")).to.eventually.throw(ApiError);
+      it("should throw", async () => {
+        try {
+          await ConfigFile.createNewConfig("myPath");
+          expect.fail("resolved", `rejected with ${ApiError}`);
+        } catch (error) {
+          expect(error.message).to.be.equal(ApiError.message);
+          expect(error.stack).to.be.equal(ApiError.stack);
+        }
       });
     });
   });
