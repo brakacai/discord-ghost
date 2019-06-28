@@ -3,8 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { prompt, Questions } from "inquirer";
 import { getFromBungie, isPlatformSupported } from "./Utils";
-import { BungieMembershipType, ServerResponse } from "bungie-api-ts/common";
-import { UserInfoCard } from "bungie-api-ts/user/interfaces";
+import { BungieMembershipType, ServerResponse, PlatformErrorCodes } from "bungie-api-ts/common";
+import { UserMembership } from "bungie-api-ts/user/interfaces";
 
 /**
  * Minimal data required to get meaningful info on the user.
@@ -22,10 +22,19 @@ type PartialConfigFileData = {
  * Config-factory. Either get one from a path, or create a new one from user inputs.
  */
 export class ConfigFile {
+  public static System = {
+    fs: fs,
+    os: os,
+    path: path
+  };
   // #region Config file paths.
   private static CONFIG_FOLDER_NAME = "ghost-discord";
   private static CONFIG_FILE_NAME = "config.json";
-  private static CONFIG_FILE_PATH = path.join(os.homedir(), ConfigFile.CONFIG_FOLDER_NAME, ConfigFile.CONFIG_FILE_NAME);
+  private static CONFIG_FILE_PATH = ConfigFile.System.path.join(
+    ConfigFile.System.os.homedir(),
+    ConfigFile.CONFIG_FOLDER_NAME,
+    ConfigFile.CONFIG_FILE_NAME
+  );
   // #endregion
 
   /**
@@ -43,7 +52,7 @@ export class ConfigFile {
   /**
    * Create a new ConfigFile from scratch
    */
-  public static async createNewConfig(): Promise<ConfigFile> {
+  public static async createNewConfig(configPath: string = this.CONFIG_FILE_PATH): Promise<ConfigFile> {
     const answers = await ConfigFile.getInfoFromUser();
     const apiKey: string = answers.API_KEY;
     const { playerId, platform } = await ConfigFile.getPlayerIdFromPlayerName(answers.PLAYER_NAME, apiKey);
@@ -52,7 +61,7 @@ export class ConfigFile {
       apiKey: apiKey,
       playerId: playerId
     };
-    ConfigFile.writeConfig(configFileData);
+    ConfigFile.writeConfig(configFileData, configPath);
     return new ConfigFile(configFileData);
   }
 
@@ -66,24 +75,24 @@ export class ConfigFile {
   /**
    * Try to load the config from file, will create a new one if none is found
    * or if it is corrupted.
-   * @param path the path to try to load
+   * @param configPath the path to try to load
    */
-  public static getConfigFromPath(path: string): Promise<ConfigFile> {
-    if (this.hasConfigFile(path)) {
+  public static getConfigFromPath(configPath: string): Promise<ConfigFile> {
+    if (this.hasConfigFile(configPath)) {
       let configFile;
       try {
-        configFile = JSON.parse(fs.readFileSync(path).toString());
+        configFile = JSON.parse(ConfigFile.System.fs.readFileSync(configPath).toString());
       } catch (error) {
-        console.warn(`Failed to read config file at: ${path}.`);
+        console.warn(`Failed to read config file at: ${configPath}.`);
       }
       if (ConfigFile.isConfigFileValid(configFile)) {
         console.log("Config file found");
         return Promise.resolve(new ConfigFile(configFile));
       }
       console.warn("Config file is corrupted, deleting...");
-      fs.unlinkSync(ConfigFile.CONFIG_FILE_PATH);
+      ConfigFile.System.fs.unlinkSync(configPath);
     }
-    return ConfigFile.createNewConfig();
+    return ConfigFile.createNewConfig(configPath);
   }
 
   /**
@@ -102,7 +111,7 @@ export class ConfigFile {
    */
   private static hasConfigFile(configFilePath: string): boolean {
     try {
-      fs.accessSync(configFilePath, fs.constants.R_OK);
+      ConfigFile.System.fs.accessSync(configFilePath, ConfigFile.System.fs.constants.R_OK);
       return true;
     } catch (error) {
       return false;
@@ -120,27 +129,22 @@ export class ConfigFile {
     }
     return isPlatformSupported(obj.platform);
   }
-
   /**
    * Save the config file in the `CONFIG_FOLDER_NAME`
    * @param configFileData the config to write
    */
-  private static writeConfig(configFileData: ConfigFileData): void {
-    const fullDirPath = path.join(os.homedir(), this.CONFIG_FOLDER_NAME);
+  private static writeConfig(configFileData: ConfigFileData, configPath: string): void {
+    ConfigFile.System.fs.mkdirSync(ConfigFile.System.path.parse(configPath).dir, { recursive: true });
     try {
-      fs.statSync(fullDirPath);
-    } catch (error) {
-      fs.mkdirSync(fullDirPath);
-    }
-    try {
-      fs.statSync(this.CONFIG_FILE_PATH);
+      ConfigFile.System.fs.accessSync(configPath, ConfigFile.System.fs.constants.F_OK);
     } catch (error) {
       if (error.code !== "ENOENT") {
         throw error;
       }
-      fs.writeFileSync(this.CONFIG_FILE_PATH, JSON.stringify(configFileData));
     }
+    ConfigFile.System.fs.writeFileSync(configPath, JSON.stringify(configFileData));
   }
+
   // #endregion
 
   /**
@@ -173,21 +177,27 @@ export class ConfigFile {
    */
   private static async getPlayerIdFromPlayerName(playerName: string, apiKey: string): Promise<PartialConfigFileData> {
     // Call the server and get the infos.
-    const playersInfoResponse = await getFromBungie<ServerResponse<UserInfoCard[]>>(
+    const playersInfoResponse = await getFromBungie<ServerResponse<UserMembership[]>>(
       {
         uri: `/Destiny2/SearchDestinyPlayer/${BungieMembershipType.All}/${encodeURIComponent(playerName)}`
       },
       apiKey
     );
 
-    // Get the platformID and playerId.
-    if (playersInfoResponse.Response && playersInfoResponse.Response.length > 0) {
-      return {
-        playerId: playersInfoResponse.Response[0].membershipId as string,
-        platform: playersInfoResponse.Response[0].membershipType as BungieMembershipType
-      };
-    } else {
-      throw new Error("Player not found");
+    // Check the response.
+    if (
+      !playersInfoResponse.Response ||
+      !playersInfoResponse.Response.length ||
+      playersInfoResponse.ErrorCode !== PlatformErrorCodes.Success
+    ) {
+      throw new Error(`Error while getting the player.
+      ${JSON.stringify(playersInfoResponse)}`);
     }
+
+    // Return the platformID and playerId.
+    return {
+      playerId: playersInfoResponse.Response[0].membershipId as string,
+      platform: playersInfoResponse.Response[0].membershipType as BungieMembershipType
+    };
   }
 }

@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const typescriptConfig = require("@istanbuljs/nyc-config-typescript");
+
 module.exports = {
-  extension: [".ts", ".tsx"],
-  exclude: ["*.js", "**/*.d.ts", "test/**/*.ts", "test/**/*.js"],
+  ...typescriptConfig,
+  exclude: typescriptConfig.exclude.concat([
+    ".mocharc.js",
+    "**/{ava,babel,jest,nyc,rollup,webpack,prettier}.config.js"
+  ]),
   reporter: ["lcov", "text"],
   all: true
 };
