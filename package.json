@@ -1,5 +1,5 @@
 {
-  "name": "refactored-happiness",
+  "name": "@brakacai/discord-ghost",
   "version": "0.0.0-development",
   "description": "A headless Discord-RPC client for Destiny 2",
   "main": "index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/brakacai/refactored-happiness.git"
+    "url": "git+https://github.com/brakacai/discord-ghost.git"
   },
   "author": "Louis Bompart",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brakacai/refactored-happiness/issues"
+    "url": "https://github.com/brakacai/discord-ghost/issues"
   },
-  "homepage": "https://github.com/brakacai/refactored-happiness#readme",
+  "homepage": "https://github.com/brakacai/discord-ghost#readme",
   "dependencies": {
     "discord-rpc": "^3.0.2",
     "request": "^2.88.0"
@@ -87,5 +87,15 @@
         "git add"
       ]
     }
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "destiny2",
+    "discord",
+    "discord",
+    "rich",
+    "experience"
+  ]
 }
