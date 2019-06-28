@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.com/brakacai/discord-ghost.svg?branch=master)](https://travis-ci.com/brakacai/discord-ghost)
 [![Coverage Status](https://coveralls.io/repos/github/brakacai/discord-ghost/badge.svg?branch=feat/unit-tests)](https://coveralls.io/github/brakacai/discord-ghost)
-![GitHub last commit](https://img.shields.io/github/last-commit/brakacai/discord-ghost.svg) ![node](https://img.shields.io/node/v/discord-ghost.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/brakacai/discord-ghost.svg)
+![node (scoped)](https://img.shields.io/node/v/@brakacai/discord-ghost.svg)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 # discord-ghost
