@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const GitHub = require("octocat");
 const fs = require("fs");
 const http = require("https");
 function upload(url) {
