@@ -50,9 +50,7 @@ jobs:
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
         - cp ./node_modules/integer/build/integer.node ./bin/
         - zip "$TRAVIS_OS_NAME.zip" ./bin/*        
-        - ls
       deploy:
-        provider: releases
-        api_key: "$GH_TOKEN"
+        provider: script
         skip_cleanup: true
-        file: "$TRAVIS_OS_NAME.zip"
+        script: node tools/releaseWindows.zip "$GH_TOKEN"
