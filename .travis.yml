@@ -9,7 +9,7 @@ script:
   - npm run coverage
   - npm run build
 after_success:
-  - mkidr bin
+  - 'if [ "$TRAVIS_OS_NAME" = "windows" ]; then md bin; else mkdir bin; fi'
   - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
 jobs:
   include:
