@@ -12,7 +12,8 @@ jobs:
     - stage: Release
       node_js: lts/*
       deploy:
+        node_js: lts/*
         provider: script
         skip_cleanup: true
         script:
-          - npx semantic-release
+          - npm run build && npm run pkg && npx semantic-release
