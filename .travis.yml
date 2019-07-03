@@ -8,27 +8,49 @@ script:
   - npm test
   - npm run coverage
   - npm run build
-after_success:
-  - 'if [ "$TRAVIS_OS_NAME" = "windows" ]; then md bin; else mkdir bin; fi'
-  - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
 jobs:
   include:
     # Define the release stage that runs semantic-release
-    - stage: Release Windows
-      os: windows
+    - stage: Create Release
       deploy:
         provider: script
         skip_cleanup: true
-        script: pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-win-x64 && npx semantic-release
-    - stage: Release OSX
-      os: osx
-      deploy:
-        provider: script
-        skip_cleanup: true
-        script: pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-macos-x64 && npx semantic-release
-    - stage: Release Linux
+        script: npx semantic-release
+    - stage: Build and Deploy
       os: linux
       deploy:
-        provider: script
+        provider: releases
+        api_key: "$GH_TOKEN"
         skip_cleanup: true
-        script: pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-linux-x64 && npx semantic-release
+        file: "$TRAVIS_OS_NAME.zip"
+      before_deploy:
+        - pkg -o "./bin/discord-ghost" --targets node-linux-x64 "./dist/index.js"
+        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
+        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - zip ./bin "$TRAVIS_OS_NAME.zip"
+    - stage: Build and deploy
+      os: osx
+      before_deploy:
+        - npm run build
+        - pkg -o "./bin/discord-ghost" --targets node-macos-x64 "./dist/index.js"
+        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
+        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - zip ./bin "$TRAVIS_OS_NAME.zip"
+      deploy:
+        provider: releases
+        api_key: "$GH_TOKEN"
+        skip_cleanup: true
+        file: "$TRAVIS_OS_NAME.zip"
+    - stage: Build and deploy
+      os: windows
+      before_deploy:
+        - npm run build
+        - pkg -o "./bin/discord-ghost" --targets node-win-x64 "./dist/index.js"
+        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
+        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - zip ./bin "$TRAVIS_OS_NAME.zip"
+      deploy:
+        provider: releases
+        api_key: "$GH_TOKEN"
+        skip_cleanup: true
+        file: "$TRAVIS_OS_NAME.zip"
