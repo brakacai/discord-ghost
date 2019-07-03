@@ -1,6 +1,6 @@
 {
   "name": "@brakacai/discord-ghost",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "A headless Discord-RPC client for Destiny 2",
   "main": "dist/index.js",
   "preview": true,
