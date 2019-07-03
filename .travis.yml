@@ -6,6 +6,9 @@ script:
   - npm run lint
   - npm test
   - npm run coverage
+  - npm run build
+after_success:
+  - 'if [ "$TRAVIS_BRANCH" == "master" ]; then npm run pkg; fi'
 jobs:
   include:
     # Define the release stage that runs semantic-release
@@ -15,5 +18,4 @@ jobs:
         node_js: lts/*
         provider: script
         skip_cleanup: true
-        script:
-          - npm run build && npm run pkg && npx semantic-release
+        script: npx semantic-release

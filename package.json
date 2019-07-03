@@ -2,7 +2,6 @@
   "name": "@brakacai/discord-ghost",
   "version": "0.0.0-development",
   "description": "A headless Discord-RPC client for Destiny 2",
-  "main": "dist/index.js",
   "preview": true,
   "engines": {
     "node": ">=10.x"
@@ -91,10 +90,6 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "directories": {
-    "test": "test",
-    "bin": "bin"
   },
   "keywords": [
     "destiny2",
