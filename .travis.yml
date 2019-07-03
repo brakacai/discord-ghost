@@ -1,18 +1,28 @@
+os:
+  - windows
+  - linux
+  - osx
+
 language: node_js
 node_js:
   - "lts/*"
-
+before_script:
+  - npm install -g pkg
 script:
   - npm run lint
   - npm test
   - npm run coverage
   - npm run build
 after_success:
-  - 'if [ "$TRAVIS_BRANCH" == "master" ]; then npm run pkg; fi'
+  - mkidr bin
+  - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
+  - 'if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_OS_NAME" = "osx" ]; then pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-macos-x64; fi'
+  - 'if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_OS_NAME" = "windows" ]; then pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-win-x64; fi'
+  - 'if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-linux-x64; fi'
 jobs:
   include:
     # Define the release stage that runs semantic-release
-    - stage: Release
+    - stage: Release Widn
       node_js: lts/*
       deploy:
         node_js: lts/*
