@@ -48,7 +48,7 @@ jobs:
         - pkg -o "./bin/discord-ghost" --targets node10-win-x64 "./dist/index.js"
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
         - cp ./node_modules/integer/build/integer.node ./bin/
-        - powershell Compress-Archive -Path ./bin/* -DestinationPath "$TRAVIS_OS_NAME"
+        - powershell Compress-Archive -Path .\bin\* -DestinationPath windows.zip
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
