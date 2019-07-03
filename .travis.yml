@@ -26,7 +26,7 @@ jobs:
       before_deploy:
         - pkg -o "./bin/discord-ghost" --targets node10-linux-x64 "./dist/index.js"
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - cp ./node_modules/integer/build/integer.node ./bin/
         - zip ./bin "$TRAVIS_OS_NAME.zip"
     - stage: Build and deploy
       os: osx
@@ -34,7 +34,7 @@ jobs:
         - npm run build
         - pkg -o "./bin/discord-ghost" --targets node10-macos-x64 "./dist/index.js"
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - cp ./node_modules/integer/build/integer.node ./bin/
         - zip ./bin "$TRAVIS_OS_NAME.zip"
       deploy:
         provider: releases
@@ -47,7 +47,7 @@ jobs:
         - npm run build
         - pkg -o "./bin/discord-ghost" --targets node10-win-x64 "./dist/index.js"
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/better-sqlite3/build/integer.node ./bin/
+        - cp ./node_modules/integer/build/integer.node ./bin/
         - zip ./bin "$TRAVIS_OS_NAME.zip"
       deploy:
         provider: releases
