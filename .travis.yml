@@ -44,13 +44,15 @@ jobs:
     - stage: Build and deploy
       os: windows
       before_deploy:
+        - choco install zip
         - npm run build
         - pkg -o "./bin/discord-ghost" --targets node10-win-x64 "./dist/index.js"
         - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
         - cp ./node_modules/integer/build/integer.node ./bin/
-        - powershell Compress-Archive -Path .\bin\* -DestinationPath windows.zip
+        - zip "$TRAVIS_OS_NAME.zip" ./bin/*        
+        - ls
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
         skip_cleanup: true
-        file: "$TRAVIS_OS_NAME.zip"
+        file: "$TRAVIS_BUILD_DIR/$TRAVIS_OS_NAME.zip"
