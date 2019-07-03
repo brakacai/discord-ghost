@@ -10,7 +10,7 @@
   "scripts": {
     "test": "rimraf dist && tsc && nyc mocha",
     "build": "rimraf dist && tsc",
-    "prepare": "",
+    "prepublishonly": "npm run build && pkg -o ./bin/discord-ghost ./dist/index.js --targets node10-win-x64,node10-linux-x64,node10-macos-x64",
     "start": "node ./dist/index.js",
     "lint": "prettier --check \"{{test,src,tools}/**/*.ts,*.js}\" && eslint \"{{test,src,tools}/**/*.ts,*.js}\"",
     "lint-fix": "prettier --write \"{{test,src,tools}/**/*.ts,*.js}\" && eslint --fix \"{{test,src,tools}/**/*.ts,*.js}\"",
