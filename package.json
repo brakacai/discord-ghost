@@ -1,18 +1,19 @@
 {
   "name": "@brakacai/discord-ghost",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "A headless Discord-RPC client for Destiny 2",
-  "main": "index.js",
+  "main": "dist/index.js",
   "preview": true,
   "engines": {
     "node": ">=10.x"
   },
   "scripts": {
-    "test": "tsc && nyc mocha",
+    "test": "rimraf dist && tsc && nyc mocha",
     "build": "rimraf dist && tsc",
+    "prepare": "",
     "start": "node ./dist/index.js",
-    "lint": "prettier --check \"{{test,src}/**/*.ts,*.js}\" && eslint \"{{test,src}/**/*.ts,*.js}\"",
-    "lint-fix": "prettier --write \"{{test,src}/**/*.ts,*.js}\" && eslint --fix \"{{test,src}/**/*.ts,*.js}\"",
+    "lint": "prettier --check \"{{test,src,tools}/**/*.ts,*.js}\" && eslint \"{{test,src,tools}/**/*.ts,*.js}\"",
+    "lint-fix": "prettier --write \"{{test,src,tools}/**/*.ts,*.js}\" && eslint --fix \"{{test,src,tools}/**/*.ts,*.js}\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "semantic-release": "semantic-release"
   },
@@ -27,23 +28,28 @@
   },
   "homepage": "https://github.com/brakacai/discord-ghost#readme",
   "dependencies": {
+    "better-sqlite3": "^5.4.0",
+    "bungie-api-ts": "^2.0.0",
     "discord-rpc": "^3.0.2",
-    "request": "^2.88.0"
+    "jszip": "^3.2.1",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
+    "@types/better-sqlite3": "^5.4.0",
     "@types/chai": "^4.1.7",
     "@types/discord-rpc": "^3.0.1",
     "@types/inquirer": "^6.0.3",
+    "@types/jszip": "^3.1.6",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/request": "^2.48.1",
     "@types/request-promise-native": "^1.0.16",
+    "@types/sharp": "^0.22.2",
     "@types/sinon": "^7.0.13",
     "@types/sinon-chai": "^3.2.2",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
-    "bungie-api-ts": "^2.0.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.4",
     "cz-conventional-changelog": "^2.1.0",
@@ -54,10 +60,12 @@
     "lint-staged": "^9.0.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
+    "pkg": "^4.4.0",
     "prettier": "^1.18.2",
     "request-promise-native": "^1.0.7",
     "rimraf": "^2.6.3",
     "semantic-release": "^15.13.18",
+    "sharp": "^0.22.1",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0",
     "source-map-support": "^0.5.12",
@@ -75,19 +83,18 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "*.{ts,js,css,json,md}": [
-        "prettier --write",
-        "git add"
-      ],
-      "*.{ts,js}": [
-        "eslint --fix",
-        "git add"
-      ]
-    }
+    "*.{ts,js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,js}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "directories": {
-    "test": "test"
+    "test": "test",
+    "bin": "bin"
   },
   "keywords": [
     "destiny2",

@@ -62,3 +62,6 @@ typings/
 
 # Build directory
 dist/
+
+# Packaging directory
+bin/

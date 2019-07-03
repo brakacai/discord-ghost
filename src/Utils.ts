@@ -1,5 +1,7 @@
 import { DestinyComponentType, BungieMembershipType } from "bungie-api-ts/destiny2";
 import { get } from "request-promise-native";
+import { System } from "./System";
+
 const BUNGIE_ENDPOINT = "https://www.bungie.net/Platform";
 /**
  * The param to send to @function getFromBungie to get some data.
@@ -21,7 +23,11 @@ export async function getFromBungie<T>(params: BungieAPIParams, bungiekey: strin
     params.components = Array.isArray(params.components) ? params.components : [params.components];
     url.searchParams.set("components", params.components.join(","));
   }
-  return (await get({ uri: url.toString(), headers: { "X-API-Key": bungiekey }, json: true })) as T;
+  try {
+    return (await get({ uri: url.toString(), headers: { "X-API-Key": bungiekey }, json: true })) as T;
+  } catch (error) {
+    return error;
+  }
 }
 
 /**
@@ -39,4 +45,16 @@ export const CURATED_PLATFORM: BungieMembershipType[] = [
  */
 export function isPlatformSupported(platform: number): boolean {
   return CURATED_PLATFORM.includes(platform);
+}
+
+export function createHierarchyIfNeeded(system: System, targetDirectory: string): void {
+  try {
+    system.fs.accessSync(targetDirectory, system.fs.constants.F_OK);
+    return;
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw error;
+    }
+  }
+  system.fs.mkdirSync(targetDirectory, { recursive: true });
 }

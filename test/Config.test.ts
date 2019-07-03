@@ -1,16 +1,15 @@
 import { expect, use } from "chai";
-import Sinon, { SinonStub } from "sinon";
+import Sinon from "sinon";
 
 import { ConfigFile } from "../src/Config";
 
-import fs, { readFileSync } from "fs";
+import fs from "fs";
 import os from "os";
 import inquirer from "inquirer";
 import * as Utils from "../src/Utils";
 
 import { UserMembership } from "bungie-api-ts/user/interfaces";
 import { ServerResponse, PlatformErrorCodes } from "bungie-api-ts/common";
-import { Stats } from "fs";
 
 use(require("sinon-chai"));
 
@@ -19,19 +18,21 @@ describe("ConfigFile", () => {
   let promptStub: Sinon.SinonStub;
   let getFromBungieStub: Sinon.SinonStub;
   let isPlatformCompatibleStub: Sinon.SinonStub;
+  let createHierarchyIfNeededStub: Sinon.SinonStub;
 
   before(() => {
     promptStub = sandbox.stub(inquirer, "prompt");
     getFromBungieStub = sandbox.stub(Utils, "getFromBungie");
     isPlatformCompatibleStub = sandbox.stub(Utils, "isPlatformSupported");
+    createHierarchyIfNeededStub = sandbox.stub(Utils, "createHierarchyIfNeeded");
 
     ConfigFile.System.fs = {
       ...fs,
-      readFileSync: sandbox.stub(fs, "readFileSync") as typeof readFileSync,
+      readFileSync: sandbox.stub(fs, "readFileSync") as typeof fs.readFileSync,
       writeFileSync: sandbox.stub(fs, "writeFileSync"),
       mkdirSync: sandbox.stub(fs, "mkdirSync"),
       unlinkSync: sandbox.stub(fs, "unlinkSync"),
-      statSync: sandbox.stub(fs, "statSync").returns(new Stats()),
+      statSync: sandbox.stub(fs, "statSync").returns(new fs.Stats()),
       accessSync: sandbox.stub(fs, "accessSync")
     };
     ConfigFile.System.os = {
@@ -49,23 +50,23 @@ describe("ConfigFile", () => {
   });
 
   describe("ConfigFile.createNewConfig", () => {
+    const API_KEY = "apikey";
+    const PLAYER_NAME = "playername";
+    const getFromBungieReturnValue: ServerResponse<UserMembership[]> = {
+      Response: [{ membershipType: 0, membershipId: "membershipId", displayName: "displayName" }],
+      ErrorCode: PlatformErrorCodes.Success,
+      ThrottleSeconds: 0,
+      ErrorStatus: "Success",
+      Message: "Ok",
+      MessageData: {}
+    };
+
+    beforeEach(() => {
+      promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
+      getFromBungieStub.returns(getFromBungieReturnValue);
+    });
+
     context("when the data from the API is good and the file already exists", () => {
-      const API_KEY = "apikey";
-      const PLAYER_NAME = "playername";
-      const getFromBungieReturnValue: ServerResponse<UserMembership[]> = {
-        Response: [{ membershipType: 0, membershipId: "membershipId", displayName: "displayName" }],
-        ErrorCode: PlatformErrorCodes.Success,
-        ThrottleSeconds: 0,
-        ErrorStatus: "Success",
-        Message: "Ok",
-        MessageData: {}
-      };
-
-      before(() => {
-        promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
-        getFromBungieStub.returns(getFromBungieReturnValue);
-      });
-
       it("should update the config file and return the config", async () => {
         const configFile = await ConfigFile.createNewConfig("myPath");
         const expectedData = {
@@ -79,22 +80,9 @@ describe("ConfigFile", () => {
       });
     });
 
-    context("when the data from the API is good and the file already does not exists but can be created", () => {
-      const API_KEY = "apikey";
-      const PLAYER_NAME = "playername";
-      const getFromBungieReturnValue: ServerResponse<UserMembership[]> = {
-        Response: [{ membershipType: 0, membershipId: "membershipId", displayName: "displayName" }],
-        ErrorCode: PlatformErrorCodes.Success,
-        ThrottleSeconds: 0,
-        ErrorStatus: "Success",
-        Message: "Ok",
-        MessageData: {}
-      };
-
-      before(() => {
-        promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
-        getFromBungieStub.returns(getFromBungieReturnValue);
-        (ConfigFile.System.fs.accessSync as SinonStub).throws({ code: "ENOENT" });
+    context("when the data from the API is good and the file does not exists but can be created", () => {
+      beforeEach(() => {
+        (ConfigFile.System.fs.accessSync as Sinon.SinonStub).throws({ code: "ENOENT" });
       });
 
       it("should create a new config file and return the config", async () => {
@@ -110,27 +98,14 @@ describe("ConfigFile", () => {
       });
     });
 
-    context("when the data from the API is good and the file already does not exists and cannot be created", () => {
-      const API_KEY = "apikey";
-      const PLAYER_NAME = "playername";
-      const getFromBungieReturnValue: ServerResponse<UserMembership[]> = {
-        Response: [{ membershipType: 0, membershipId: "membershipId", displayName: "displayName" }],
-        ErrorCode: PlatformErrorCodes.Success,
-        ThrottleSeconds: 0,
-        ErrorStatus: "Success",
-        Message: "Ok",
-        MessageData: {}
-      };
-      let cannotCreateError: Error;
+    context("when the data from the API is good and the file does not exists and cannot be created", () => {
+      const cannotCreateError = new Error("CannotCreate");
 
-      before(() => {
-        cannotCreateError = new Error("CannotCreate");
-        promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
-        getFromBungieStub.returns(getFromBungieReturnValue);
-        (ConfigFile.System.fs.accessSync as SinonStub).throws(cannotCreateError);
+      beforeEach(() => {
+        createHierarchyIfNeededStub.throws(cannotCreateError);
       });
 
-      it("should throw", async () => {
+      it("should throw when the dir cannot be created", async () => {
         try {
           await ConfigFile.createNewConfig("myPath");
           expect.fail("resolved", `rejected with ${cannotCreateError}`);
@@ -138,11 +113,21 @@ describe("ConfigFile", () => {
           expect(error).to.be.eql(cannotCreateError);
         }
       });
+
+      it("should throw when the dir exists but cannot create the file", async () => {
+        (ConfigFile.System.fs.accessSync as Sinon.SinonStub).throws(cannotCreateError);
+
+        await ConfigFile.createNewConfig("myPath")
+          .then(() => {
+            expect.fail("resolved", `rejected with ${cannotCreateError}`);
+          })
+          .catch((error: Error) => {
+            expect(error.message).to.be.eql(cannotCreateError.message);
+          });
+      });
     });
 
     context("when the data from the API is bad", () => {
-      const API_KEY = "apikey";
-      const PLAYER_NAME = "playername";
       const getFromBungieReturnValue: ServerResponse<UserMembership[]> = {
         Response: [{ membershipType: 0, membershipId: "membershipId", displayName: "displayName" }],
         ErrorCode: PlatformErrorCodes.TagNotFound,
@@ -151,12 +136,10 @@ describe("ConfigFile", () => {
         Message: "NOK",
         MessageData: {}
       };
-      let ApiError: Error;
+      const ApiError = new Error("Error while getting the player");
+      ApiError.stack = JSON.stringify(getFromBungieReturnValue);
 
-      before(() => {
-        ApiError = new Error("Error while getting the player");
-        ApiError.stack = JSON.stringify(getFromBungieReturnValue);
-        promptStub.returns({ API_KEY: API_KEY, PLAYER_NAME: PLAYER_NAME });
+      beforeEach(() => {
         getFromBungieStub.returns(getFromBungieReturnValue);
       });
 
@@ -179,7 +162,7 @@ describe("ConfigFile", () => {
         apiKey: "anotherapikey",
         playerId: "membershipId"
       };
-      before(() => {
+      beforeEach(() => {
         isPlatformCompatibleStub.returns(true);
         (ConfigFile.System.fs.readFileSync as Sinon.SinonStub).returns(JSON.stringify(testConfig));
       });
@@ -200,9 +183,11 @@ describe("ConfigFile", () => {
         apiKey: "anotherapikey"
       };
       let createNewConfigStub: Sinon.SinonStub;
-
       before(() => {
         createNewConfigStub = sandbox.stub(ConfigFile, "createNewConfig");
+      });
+
+      beforeEach(() => {
         (ConfigFile.System.fs.readFileSync as Sinon.SinonStub).returns(JSON.stringify(testConfig));
       });
 
@@ -221,6 +206,9 @@ describe("ConfigFile", () => {
 
       before(() => {
         createNewConfigStub = sandbox.stub(ConfigFile, "createNewConfig");
+      });
+
+      beforeEach(() => {
         (ConfigFile.System.fs.accessSync as Sinon.SinonStub).throws(new Error("error"));
       });
 
@@ -239,6 +227,9 @@ describe("ConfigFile", () => {
 
       before(() => {
         createNewConfigStub = sandbox.stub(ConfigFile, "createNewConfig");
+      });
+
+      beforeEach(() => {
         isPlatformCompatibleStub.returns(true);
         (ConfigFile.System.fs.readFileSync as Sinon.SinonStub).returns("some random string that is not a json at all");
       });
