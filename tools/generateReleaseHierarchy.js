@@ -30,3 +30,8 @@ fs.copySync(
   path.join("node_modules", "integer", "build", "integer.node"),
   path.join(targetDir, "node_modules", "integer", "build", "integer.node")
 );
+
+fs.copySync(
+  path.join("node_modules", "integer", "package.json"),
+  path.join(targetDir, "node_modules", "integer", "package.json")
+);
