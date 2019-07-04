@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs");
 const http = require("https");
+
 function upload(url) {
   return new Promise((accept, reject) => {
     const file = fs.readFileSync("windows.zip", { encoding: null });
@@ -29,36 +30,60 @@ function upload(url) {
     request.end();
   });
 }
+function delay(t, val) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      resolve(val);
+    }, t);
+  });
+}
+async function getUploadURL() {
+  return new Promise(resolve => {
+    const req = http.request(
+      "https://api.github.com/repos/brakacai/discord-ghost/releases/latest",
+      {
+        headers: {
+          "User-Agent": "Brakacai Build"
+        }
+      },
+      function(res) {
+        const chunks = [];
+
+        res.on("data", function(chunk) {
+          chunks.push(chunk);
+        });
+
+        res.on("end", function() {
+          const body = Buffer.concat(chunks);
+          resolve(JSON.parse(body.toString()));
+        });
+      }
+    );
+
+    req.end();
+  });
+}
+
 (async function() {
   try {
-    const uploadURL = async function getUploadURL() {
-      return new Promise(resolve => {
-        const req = http.request(
-          "https://api.github.com/repos/brakacai/discord-ghost/releases/latest",
-          {
-            headers: {
-              "User-Agent": "Brakacai Build"
-            }
-          },
-          function(res) {
-            const chunks = [];
-
-            res.on("data", function(chunk) {
-              chunks.push(chunk);
-            });
-
-            res.on("end", function() {
-              const body = Buffer.concat(chunks);
-              resolve(JSON.parse(body.toString())["upload_url"]);
-            });
-          }
-        );
-
-        req.end();
-      });
-    };
-    const url = (await uploadURL()).replace("{?name,label}", "?name=windows.zip");
+    let url;
+    let attempt = 0;
+    while (!done) {
+      try {
+        attempt++;
+        const urlRep = await getUploadURL();
+        console.log(JSON.stringify(urlRep));
+        url = urlRep["upload_url"].replace("{?name,label}", "?name=windows.zip");
+        done = true;
+      } catch (error) {
+        if (attempt > 10) {
+          throw error;
+        }
+        await delay(1e3);
+      }
+    }
     const response = await upload(url);
+    console.log(response);
     console.log("done!");
   } catch (error) {
     console.log(error);
