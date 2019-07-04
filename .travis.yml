@@ -27,7 +27,7 @@ jobs:
       before_deploy:
         - pkg -o "start" --targets node10-linux-x64 "./dist/index.js"
         - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
+        - zip -r "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
@@ -44,7 +44,7 @@ jobs:
         - npm run build
         - pkg -o "start" --targets node10-macos-x64 "./dist/index.js"
         - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
+        - zip -r "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
@@ -61,7 +61,7 @@ jobs:
         - choco install zip
         - pkg -o "start" --targets node10-win-x64 "./dist/index.js"
         - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
+        - zip -r "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: script
         skip_cleanup: true
