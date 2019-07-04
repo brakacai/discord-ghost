@@ -23,34 +23,36 @@ jobs:
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
+        on:
+          tags: true
       before_deploy:
         - pkg -o "./bin/discord-ghost" --targets node10-linux-x64 "./dist/index.js"
-        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/integer/build/integer.node ./bin/
+        - node tools/generateReleaseHierarchy.js
         - zip "$TRAVIS_OS_NAME.zip" ./bin/*
     - stage: Build and deploy
       os: osx
       before_deploy:
         - npm run build
-        - pkg -o "./bin/discord-ghost" --targets node10-macos-x64 "./dist/index.js"
-        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/integer/build/integer.node ./bin/
+        - pkg -o "discord-ghost" --targets node10-macos-x64 "./dist/index.js"
+        - node tools/generateReleaseHierarchy.js
         - zip "$TRAVIS_OS_NAME.zip" ./bin/*
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
+        on:
+          tags: true
     - stage: Build and deploy
       os: windows
       before_deploy:
         - choco install zip
-        - npm run build
-        - pkg -o "./bin/discord-ghost" --targets node10-win-x64 "./dist/index.js"
-        - cp ./node_modules/better-sqlite3/build/better_sqlite3.node ./bin/
-        - cp ./node_modules/integer/build/integer.node ./bin/
-        - zip "$TRAVIS_OS_NAME.zip" ./bin/*        
+        - pkg -o "discord-ghost" --targets node10-win-x64 "./dist/index.js"
+        - node tools/generateReleaseHierarchy.js
+        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*        
       deploy:
         provider: script
         skip_cleanup: true
         script: node tools/releaseWindows.js "$GH_TOKEN"
+        on:
+          tags: true
