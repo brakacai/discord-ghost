@@ -1,15 +1,14 @@
 language: node_js
 node_js:
   - "lts/*"
-before_script:
-  - npm install -g pkg
-script:
-  - 'if [ "$TRAVIS_OS_NAME" != "windows" ]; then npm run lint; fi'
-  - npm test
-  - npm run coverage
-  - npm run build
+
 jobs:
   include:
+    - stage: Test
+      script:
+        - npm test
+        - npm run coverage
+        - npm run build
     # Define the release stage that runs semantic-release
     - stage: Create Release
       deploy:
@@ -17,42 +16,51 @@ jobs:
         skip_cleanup: true
         script: npx semantic-release
     - stage: Build and Deploy
+      if: tag IS blank
       os: linux
+      before_script:
+        - npm install -g pkg
+      script:
+        - npm run build
+      before_deploy:
+        - pkg -o "start" --targets node10-linux-x64 "./dist/index.js"
+        - node tools/generateReleaseHierarchy.js
+        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
-        on:
-          tags: true
-      before_deploy:
-        - pkg -o "./bin/discord-ghost" --targets node10-linux-x64 "./dist/index.js"
-        - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./bin/*
-    - stage: Build and deploy
+    - stage: Build and Deploy
+      if: tag IS blank
       os: osx
+      before_script:
+        - npm install -g pkg
+      script:
+        - npm run build
       before_deploy:
         - npm run build
-        - pkg -o "discord-ghost" --targets node10-macos-x64 "./dist/index.js"
+        - pkg -o "start" --targets node10-macos-x64 "./dist/index.js"
         - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./bin/*
+        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: releases
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
-        on:
-          tags: true
-    - stage: Build and deploy
+    - stage: Build and Deploy
+      if: tag IS blank
       os: windows
+      before_script:
+        - npm install -g pkg
+      script:
+        -npm run build
       before_deploy:
         - choco install zip
-        - pkg -o "discord-ghost" --targets node10-win-x64 "./dist/index.js"
+        - pkg -o "start" --targets node10-win-x64 "./dist/index.js"
         - node tools/generateReleaseHierarchy.js
-        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*        
+        - zip "$TRAVIS_OS_NAME.zip" ./discord-ghost/*
       deploy:
         provider: script
         skip_cleanup: true
         script: node tools/releaseWindows.js "$GH_TOKEN"
-        on:
-          tags: true
