@@ -68,6 +68,7 @@ async function getUploadURL() {
   try {
     let url;
     let attempt = 0;
+    let done = false;
     while (!done) {
       try {
         attempt++;
