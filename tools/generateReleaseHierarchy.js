@@ -3,7 +3,7 @@
 const fs = require("fs-extra");
 const os = require("os");
 const path = require("path");
-const binaryName = `discord-ghost${os.type() === "Windows_NT" ? ".exe" : ""}`;
+const binaryName = `start${os.type() === "Windows_NT" ? ".exe" : ""}`;
 const targetDir = "discord-ghost";
 
 fs.mkdirSync(targetDir);

@@ -11,6 +11,7 @@ jobs:
         - npm run build
     # Define the release stage that runs semantic-release
     - stage: Create Release
+      script: skip
       deploy:
         provider: script
         skip_cleanup: true
