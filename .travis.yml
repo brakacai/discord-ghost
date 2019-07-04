@@ -11,13 +11,14 @@ jobs:
         - npm run build
     # Define the release stage that runs semantic-release
     - stage: Create Release
+      if: branch = master
       script: skip
       deploy:
         provider: script
         skip_cleanup: true
         script: npx semantic-release
     - stage: Build and Deploy
-      if: tag IS blank
+      if: (tag IS blank) AND (branch = master)
       os: linux
       before_script:
         - npm install -g pkg
@@ -33,7 +34,7 @@ jobs:
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
     - stage: Build and Deploy
-      if: tag IS blank
+      if: (tag IS blank) AND (branch = master)
       os: osx
       before_script:
         - npm install -g pkg
@@ -50,12 +51,12 @@ jobs:
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
     - stage: Build and Deploy
-      if: tag IS blank
+      if: (tag IS blank) AND (branch = master)
       os: windows
       before_script:
         - npm install -g pkg
       script:
-        -npm run build
+        - npm run build
       before_deploy:
         - choco install zip
         - pkg -o "start" --targets node10-win-x64 "./dist/index.js"
