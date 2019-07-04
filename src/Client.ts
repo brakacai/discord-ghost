@@ -131,11 +131,24 @@ export class Client {
   private getCurrentCharacterId(response: DestinyCharacterActivitiesComponentResponse): string {
     let currentCharacterId: string;
     Object.keys(response.characterActivities.data).forEach(characterId => {
-      if (response.characterActivities.data[characterId].currentActivityHash) {
+      if (this.isCharacterMoreRecent(currentCharacterId, response, characterId)) {
         currentCharacterId = characterId;
       }
     });
     return currentCharacterId;
+  }
+
+  private isCharacterMoreRecent(
+    currentCharacterId: string,
+    response: DestinyCharacterActivitiesComponentResponse,
+    characterId: string
+  ) {
+    return (
+      response.characterActivities.data[characterId].currentActivityHash &&
+      (!currentCharacterId ||
+        new Date(response.characterActivities.data[characterId].dateActivityStarted) >
+          new Date(response.characterActivities.data[currentCharacterId].dateActivityStarted))
+    );
   }
 
   public isRunning(): boolean {
