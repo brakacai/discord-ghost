@@ -19,6 +19,7 @@ jobs:
         provider: script
         skip_cleanup: true
         script: npx semantic-release
+    # Define the stages that build the binaries and attach them to the release/tag.
     - stage: Build and Deploy
       if: (NOT type IN (pull_request)) AND tag IS present
       os: linux
@@ -35,6 +36,8 @@ jobs:
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
+        on:
+          all_branches: true # We rely on the stage condition.
     - stage: Build and Deploy
       if: tag IS present
       os: osx
@@ -52,6 +55,8 @@ jobs:
         api_key: "$GH_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
+        on:
+          all_branches: true # We rely on the stage condition.
     - stage: Build and Deploy
       if: (NOT type IN (pull_request)) AND tag IS present
       os: windows
@@ -68,3 +73,5 @@ jobs:
         provider: script
         skip_cleanup: true
         script: node tools/releaseWindows.js "$GH_TOKEN"
+        on:
+          all_branches: true # We rely on the stage condition.
