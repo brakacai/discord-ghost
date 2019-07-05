@@ -130,6 +130,11 @@ export class Client {
 
   private getCurrentCharacterId(response: DestinyCharacterActivitiesComponentResponse): string {
     let currentCharacterId: string;
+    if (!response.characterActivities.data) {
+      console.warn(
+        "No character activities found, try to modify your privacy settings (see https://github.com/brakacai/discord-ghost/docs/PrivacySettings.md)"
+      );
+    }
     Object.keys(response.characterActivities.data).forEach(characterId => {
       if (this.isCharacterMoreRecent(currentCharacterId, response, characterId)) {
         currentCharacterId = characterId;
