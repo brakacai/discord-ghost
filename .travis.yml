@@ -11,14 +11,14 @@ jobs:
         - npm run build
     # Define the release stage that runs semantic-release
     - stage: Create Release
-      if: branch = master
+      if: (NOT type IN (pull_request)) AND (branch = master)
       script: skip
       deploy:
         provider: script
         skip_cleanup: true
         script: npx semantic-release
     - stage: Build and Deploy
-      if: (tag IS blank) AND (branch = master)
+      if: (NOT type IN (pull_request)) AND (branch = master) AND tag IS present
       os: linux
       before_script:
         - npm install -g pkg
@@ -34,7 +34,7 @@ jobs:
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
     - stage: Build and Deploy
-      if: (tag IS blank) AND (branch = master)
+      if: (NOT type IN (pull_request)) AND (branch = master) AND tag IS present
       os: osx
       before_script:
         - npm install -g pkg
@@ -51,7 +51,7 @@ jobs:
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
     - stage: Build and Deploy
-      if: (tag IS blank) AND (branch = master)
+      if: (NOT type IN (pull_request)) AND (branch = master) AND tag IS present
       os: windows
       before_script:
         - npm install -g pkg
