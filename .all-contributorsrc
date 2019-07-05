@@ -42,6 +42,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "CaptainKoby",
+      "name": "Koby",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/32594096?v=4",
+      "profile": "https://github.com/CaptainKoby",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
