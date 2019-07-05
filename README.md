@@ -3,7 +3,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/brakacai/discord-ghost/badge/master)](https://www.codefactor.io/repository/github/brakacai/discord-ghost/overview/master)
 ![GitHub last commit](https://img.shields.io/github/last-commit/brakacai/discord-ghost.svg)
 ![node (scoped)](https://img.shields.io/node/v/@brakacai/discord-ghost.svg)
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 # discord-ghost
 
@@ -31,7 +31,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-<table><tr><td align="center"><a href="https://github.com/louis-bompart"><img src="https://avatars2.githubusercontent.com/u/12366410?v=4" width="100px;" alt="Louis Bompart"/><br /><sub><b>Louis Bompart</b></sub></a><br /><a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Code">💻</a> <a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Tests">⚠️</a> <a href="#projectManagement-louis-bompart" title="Project Management">📆</a> <a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Documentation">📖</a> <a href="#ideas-louis-bompart" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-louis-bompart" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td><td align="center"><a href="https://github.com/pjuhel"><img src="https://avatars0.githubusercontent.com/u/14289468?v=4" width="100px;" alt="pjuhel"/><br /><sub><b>pjuhel</b></sub></a><br /><a href="https://github.com/brakacai/discord-ghost/commits?author=pjuhel" title="Code">💻</a> <a href="https://github.com/brakacai/discord-ghost/issues?q=author%3Apjuhel" title="Bug reports">🐛</a></td></tr></table>
+<table><tr><td align="center"><a href="https://github.com/louis-bompart"><img src="https://avatars2.githubusercontent.com/u/12366410?v=4" width="100px;" alt="Louis Bompart"/><br /><sub><b>Louis Bompart</b></sub></a><br /><a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Code">💻</a> <a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Tests">⚠️</a> <a href="#projectManagement-louis-bompart" title="Project Management">📆</a> <a href="https://github.com/brakacai/discord-ghost/commits?author=louis-bompart" title="Documentation">📖</a> <a href="#ideas-louis-bompart" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-louis-bompart" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td><td align="center"><a href="https://github.com/pjuhel"><img src="https://avatars0.githubusercontent.com/u/14289468?v=4" width="100px;" alt="pjuhel"/><br /><sub><b>pjuhel</b></sub></a><br /><a href="https://github.com/brakacai/discord-ghost/commits?author=pjuhel" title="Code">💻</a> <a href="https://github.com/brakacai/discord-ghost/issues?q=author%3Apjuhel" title="Bug reports">🐛</a></td><td align="center"><a href="https://github.com/TalenTaylor"><img src="https://avatars0.githubusercontent.com/u/52544870?v=4" width="100px;" alt="TalenTaylor"/><br /><sub><b>TalenTaylor</b></sub></a><br /><a href="https://github.com/brakacai/discord-ghost/issues?q=author%3ATalenTaylor" title="Bug reports">🐛</a></td></tr></table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
