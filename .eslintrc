@@ -1,16 +1,9 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      { "allowExpressions": true }
-    ],
+    "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
     "eol-last": "error",
     "linebreak-style": ["error", "unix"],
     "prefer-const": "error",
@@ -21,6 +14,6 @@
     "semi": "error",
     "quotes": "error",
     "no-trailing-spaces": "error",
-    "no-multiple-empty-lines": "error"
+    "no-multiple-empty-lines": "error",
   }
 }

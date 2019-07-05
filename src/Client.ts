@@ -142,7 +142,7 @@ export class Client {
     currentCharacterId: string,
     response: DestinyCharacterActivitiesComponentResponse,
     characterId: string
-  ) {
+  ): boolean {
     return (
       response.characterActivities.data[characterId].currentActivityHash &&
       (!currentCharacterId ||
