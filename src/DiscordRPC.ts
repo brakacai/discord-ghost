@@ -5,6 +5,11 @@ const clientId = "593302206661525504";
 export class DiscordRPC {
   private client: Client;
   private static instance: DiscordRPC;
+  public static readonly maxStateLength: number = 128;
+  /*
+   * Public static readonly maxLargeTe: number = 128;
+   * public static readonly maxStateLength: number = 128;
+   */
 
   public static getInstance(): Promise<DiscordRPC> {
     DiscordRPC.instance = new DiscordRPC();
@@ -19,9 +24,19 @@ export class DiscordRPC {
 
   public async setActivity(rpcActivity: Presence): Promise<void> {
     return this.client.setActivity({
-      ...rpcActivity,
+      ...this.sanitizeActivity(rpcActivity),
       instance: false
     });
+  }
+
+  private sanitizeActivity(rpcActivity: Presence): Presence {
+    return {
+      ...rpcActivity,
+      details: rpcActivity.details.substr(0, DiscordRPC.maxStateLength),
+      state: rpcActivity.state.substr(0, DiscordRPC.maxStateLength),
+      smallImageText: rpcActivity.smallImageText.substr(0, DiscordRPC.maxStateLength),
+      largeImageText: rpcActivity.largeImageText.substr(0, DiscordRPC.maxStateLength)
+    };
   }
 
   private constructor() {
