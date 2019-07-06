@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs");
-const http = require("https");
+const https = require("https");
 
 function upload(url) {
   return new Promise((accept, reject) => {
@@ -15,7 +15,7 @@ function upload(url) {
       }
     };
     const data = [];
-    const request = http.request(url, options, response => {
+    const request = https.request(url, options, response => {
       response.on("data", chunk => data.push(chunk));
       response.on("end", () =>
         accept({
@@ -39,7 +39,7 @@ function delay(t, val) {
 }
 async function getUploadURL() {
   return new Promise(resolve => {
-    const req = http.request(
+    const req = https.request(
       "https://api.github.com/repos/brakacai/discord-ghost/releases/latest",
       {
         headers: {
@@ -85,7 +85,7 @@ async function getUploadURL() {
     }
     const response = await upload(url);
     console.log(response);
-    console.log("done!");
+    console.log("Completed upload!");
   } catch (error) {
     console.log(error);
   }

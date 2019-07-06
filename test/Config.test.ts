@@ -136,7 +136,7 @@ describe("ConfigFile", () => {
         Message: "NOK",
         MessageData: {}
       };
-      const ApiError = new Error("Error while getting the player");
+      const ApiError = new Error("Error occured while retrieving the player");
       ApiError.stack = JSON.stringify(getFromBungieReturnValue);
 
       beforeEach(() => {

@@ -165,7 +165,7 @@ export class ConfigFile {
       {
         name: "PLAYER_NAME",
         type: "input",
-        message: "What is your BattleTag/PlaystationID/Gamertag?",
+        message: "What is your BattleTag/PlaystationID/Gamertag? (e.g. axelg#11781 for Battle.Net)",
 
         when: /* istanbul ignore next: depends on user input */ (answers): boolean => {
           return !!answers.API_KEY;
@@ -195,7 +195,7 @@ export class ConfigFile {
       !playersInfoResponse.Response.length ||
       playersInfoResponse.ErrorCode !== PlatformErrorCodes.Success
     ) {
-      const error = new Error("Error while getting the player");
+      const error = new Error("Error occured while retrieving the player");
       error.stack = JSON.stringify(playersInfoResponse);
       throw error;
     }

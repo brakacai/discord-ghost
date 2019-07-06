@@ -65,3 +65,6 @@ dist/
 
 # Packaging directory
 bin/
+
+# Icon directory
+generated_icons/
