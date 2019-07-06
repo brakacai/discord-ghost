@@ -32,10 +32,14 @@ export class DiscordRPC {
   private sanitizeActivity(rpcActivity: Presence): Presence {
     return {
       ...rpcActivity,
-      details: rpcActivity.details.substr(0, DiscordRPC.maxStateLength),
-      state: rpcActivity.state.substr(0, DiscordRPC.maxStateLength),
-      smallImageText: rpcActivity.smallImageText.substr(0, DiscordRPC.maxStateLength),
-      largeImageText: rpcActivity.largeImageText.substr(0, DiscordRPC.maxStateLength)
+      details: rpcActivity.details ? rpcActivity.details.substr(0, DiscordRPC.maxStateLength) : "  ",
+      state: rpcActivity.state ? rpcActivity.state.substr(0, DiscordRPC.maxStateLength) : "  ",
+      smallImageText: rpcActivity.smallImageText
+        ? rpcActivity.smallImageText.substr(0, DiscordRPC.maxStateLength)
+        : "  ",
+      largeImageText: rpcActivity.largeImageText
+        ? rpcActivity.largeImageText.substr(0, DiscordRPC.maxStateLength)
+        : "  "
     };
   }
 
