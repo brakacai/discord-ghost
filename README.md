@@ -4,6 +4,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/brakacai/discord-ghost.svg)
 ![node (scoped)](https://img.shields.io/node/v/@brakacai/discord-ghost.svg)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
+[![Gitter](https://badges.gitter.im/discord-ghost/community.svg)](https://gitter.im/discord-ghost/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # discord-ghost
 
