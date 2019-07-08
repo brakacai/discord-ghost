@@ -10,7 +10,6 @@ import {
   DestinyCharacterComponent,
   DestinyActivityDefinition,
   DestinyActivityModeDefinition,
-  DestinyPlaceDefinition,
   DestinyClassDefinition,
   DestinyActivityModeType,
   DestinyDestinationDefinition
@@ -33,13 +32,13 @@ interface DestinyCharacterActivitiesComponentResponse {
   characters: CharacterComponentsDataWrapper<DestinyCharacterComponent>;
 }
 
-const PLACE_ORBIT = 2961497387;
-const ACTIVITY_TYPE_FORGE = 838603889;
-const ACTIVITY_TYPE_MENAGERIE = 400075666;
-const PLAYLIST_PRIVATE_GAMBIT = 2624692004;
-
 export class Client {
   public static System: System = DefaultSystem;
+
+  private static readonly PLACE_ORBIT: number = 2961497387;
+  private static readonly ACTIVITY_TYPE_FORGE: number = 838603889;
+  private static readonly ACTIVITY_TYPE_MENAGERIE: number = 400075666;
+  private static readonly PLAYLIST_PRIVATE_GAMBIT: number = 2624692004;
 
   private interval: NodeJS.Timeout;
 
@@ -48,7 +47,7 @@ export class Client {
   private discordRpc: DiscordRPC;
   private refreshRate: number;
 
-  private lastActivity: number;
+  private lastActivity: string;
 
   public constructor(
     database: Database,
@@ -101,7 +100,7 @@ export class Client {
         const currentActivityData = response.characterActivities.data[currentCharacterId];
         const currentCharacterData = response.characters.data[currentCharacterId];
 
-        if (currentActivityData.currentActivityHash != this.lastActivity) {
+        if (this.getActivityHash(currentActivityData) != this.lastActivity) {
           const activityInfo = this.getActivityInfo(currentActivityData, currentCharacterData);
           activityInfo.largeImageKey = this.sanitizeLargeImageKey(activityInfo.largeImageKey);
           if (activityInfo.smallImageKey) {
@@ -109,10 +108,16 @@ export class Client {
           }
           console.log(`\nNew activity:\n${activityInfo.details || ""}\n${activityInfo.state}`);
           this.discordRpc.setActivity(activityInfo);
-          this.lastActivity = currentActivityData.currentActivityHash;
+          this.lastActivity = this.getActivityHash(currentActivityData);
         }
       }, this.refreshRate);
     }
+  }
+
+  private getActivityHash(currentActivityData: DestinyCharacterActivitiesComponent): string {
+    return Buffer.from(currentActivityData.currentActivityHash + currentActivityData.dateActivityStarted).toString(
+      "base64"
+    );
   }
 
   private getCurrentCharacterId(response: DestinyCharacterActivitiesComponentResponse): string {
@@ -227,7 +232,7 @@ export class Client {
     if (this.isActivityGambit(currentActivity)) {
       return {
         ...activityInfo,
-        state: `${currentPlaylist.hash === PLAYLIST_PRIVATE_GAMBIT ? "Gambit - " : ""}${
+        state: `${currentPlaylist.hash === Client.PLAYLIST_PRIVATE_GAMBIT ? "Gambit - " : ""}${
           currentPlaylist.displayProperties.name
         }`,
         smallImageKey: currentActivityMode.displayProperties.icon,
@@ -291,7 +296,7 @@ export class Client {
   }
 
   private isMenagerie(currentActivity: DestinyActivityDefinition): boolean {
-    return currentActivity.activityTypeHash == ACTIVITY_TYPE_MENAGERIE;
+    return currentActivity.activityTypeHash == Client.ACTIVITY_TYPE_MENAGERIE;
   }
 
   private isActivityGambit(currentActivity: DestinyActivityDefinition): boolean {
@@ -302,7 +307,7 @@ export class Client {
   }
 
   private isActivityForge(currentActivity: DestinyActivityDefinition): boolean {
-    return currentActivity.activityTypeHash == ACTIVITY_TYPE_FORGE;
+    return currentActivity.activityTypeHash == Client.ACTIVITY_TYPE_FORGE;
   }
 
   private isActivityPvp(currentActivity: DestinyActivityDefinition): boolean {
@@ -310,7 +315,7 @@ export class Client {
   }
 
   private isActivityOrbit(currentActivity: DestinyActivityDefinition): boolean {
-    return currentActivity.placeHash == PLACE_ORBIT;
+    return currentActivity.placeHash == Client.PLACE_ORBIT;
   }
 
   private sanitizeSmallImageKey(smallImageKey: string): string {
