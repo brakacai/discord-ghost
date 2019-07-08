@@ -60,6 +60,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "mrphlip",
+      "name": "Phillip",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/734414?v=4",
+      "profile": "http://www.mrphlip.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
