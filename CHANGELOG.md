@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/brakacai/discord-ghost/compare/v2.0.5...v2.0.6) (2019-07-15)
+
+
+### Bug Fixes
+
+* **Travis:** Add debian dep to build stage ([3339900](https://github.com/brakacai/discord-ghost/commit/3339900))
+
 ## [2.0.5](https://github.com/brakacai/discord-ghost/compare/v2.0.4...v2.0.5) (2019-07-15)
 
 
