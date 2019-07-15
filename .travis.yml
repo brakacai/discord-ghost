@@ -18,6 +18,9 @@ jobs:
     - stage: Create Release
       if: (NOT type IN (pull_request)) AND (branch = master)
       script: skip
+      before_install:
+        - sudo apt-get install libsecret-1-dev
+        - sudo apt-get install fakeroot
       deploy:
         provider: script
         skip_cleanup: true
