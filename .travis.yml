@@ -29,6 +29,9 @@ jobs:
     - stage: Build and Deploy
       if: (NOT type IN (pull_request)) AND tag IS present
       os: linux
+      before_install:
+        - sudo apt-get install libsecret-1-dev
+        - sudo apt-get install fakeroot
       before_script: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
       script: npm run make
       before_deploy: zip -r "$TRAVIS_OS_NAME.zip" ./out/make/*
