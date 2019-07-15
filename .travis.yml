@@ -42,11 +42,14 @@ jobs:
     - stage: Build and Deploy
       if: tag IS present
       os: osx
-      before_deploy: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      before_script: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      script: npm run make
+      before_deploy: zip -r "$TRAVIS_OS_NAME.zip" ./out/make/*
       deploy:
-        provider: script
+        provider: releases
+        api_key: "$GH_TOKEN"
         skip_cleanup: true
-        script: npm run publish
+        file: "$TRAVIS_OS_NAME.zip"
         on:
           all_branches: true # We rely on the stage condition.
     - stage: Build and Deploy
@@ -56,10 +59,14 @@ jobs:
         - yarn config delete proxy
         - npm config rm proxy
         - npm config rm https-proxy
-      before_deploy: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      before_script: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      script: npm run make
+      before_deploy: 
+        - choco install zip
+        - zip -r "$TRAVIS_OS_NAME.zip" ./out/make/*
       deploy:
         provider: script
         skip_cleanup: true
-        script: npm run publish
+        script: node tools/releaseWindows.js "$GITHUB_TOKEN"
         on:
           all_branches: true # We rely on the stage condition.
