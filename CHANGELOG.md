@@ -1,3 +1,10 @@
+## [2.0.5](https://github.com/brakacai/discord-ghost/compare/v2.0.4...v2.0.5) (2019-07-15)
+
+
+### Bug Fixes
+
+* **Travis:** Fix linux ([aee32ad](https://github.com/brakacai/discord-ghost/commit/aee32ad))
+
 ## [2.0.4](https://github.com/brakacai/discord-ghost/compare/v2.0.3...v2.0.4) (2019-07-15)
 
 

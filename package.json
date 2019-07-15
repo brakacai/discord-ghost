@@ -1,6 +1,6 @@
 {
   "name": "discord-ghost",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "A headless Discord-RPC client for Destiny 2",
   "main": ".webpack/main",
   "engines": {
