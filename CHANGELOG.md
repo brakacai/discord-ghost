@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/brakacai/discord-ghost/compare/v2.0.2...v2.0.3) (2019-07-15)
+
+
+### Bug Fixes
+
+* **Travis:** Try to fix yarn network ([4fdd897](https://github.com/brakacai/discord-ghost/commit/4fdd897))
+
 ## [2.0.2](https://github.com/brakacai/discord-ghost/compare/v2.0.1...v2.0.2) (2019-07-15)
 
 
