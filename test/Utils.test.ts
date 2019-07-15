@@ -6,7 +6,7 @@ import { BungieAPIParams, getFromBungie, isPlatformSupported, createHierarchyIfN
 import { System, DefaultSystem } from "../src/System";
 import sinon from "sinon";
 import { SystemError } from "./SystemError";
-
+import bungieConfig from "../config/bungieApp.json";
 use(require("sinon-chai"));
 
 describe("Utils", () => {
@@ -47,49 +47,57 @@ describe("Utils", () => {
 
     it("should call the API with params properly built without components", () => {
       const params: BungieAPIParams = { uri: "my/awesome/service/" };
-      const apiKey = "myawesomeapikey";
 
-      getFromBungie(params, apiKey);
+      getFromBungie(params, "myaccesstoken");
 
       expect(requestGetStub).to.have.been.calledOnceWith({
         uri: "https://www.bungie.net/Platform/my/awesome/service/",
-        headers: { "X-API-Key": apiKey },
+        headers: { "X-API-Key": bungieConfig.apiKey, Authorization: "Bearer myaccesstoken" },
+        json: true
+      });
+    });
+
+    it("should call the API with params properly built without token", () => {
+      const params: BungieAPIParams = { uri: "my/awesome/service/" };
+
+      getFromBungie(params);
+
+      expect(requestGetStub).to.have.been.calledOnceWith({
+        uri: "https://www.bungie.net/Platform/my/awesome/service/",
+        headers: { "X-API-Key": bungieConfig.apiKey },
         json: true
       });
     });
 
     it("should call the API with params properly built with one component", () => {
       const params: BungieAPIParams = { uri: "my/awesome/service/", components: 42 };
-      const apiKey = "myawesomeapikey";
 
-      getFromBungie(params, apiKey);
+      getFromBungie(params, "myaccesstoken");
 
       expect(requestGetStub).to.have.been.calledOnceWith({
         uri: "https://www.bungie.net/Platform/my/awesome/service/?components=42",
-        headers: { "X-API-Key": apiKey },
+        headers: { "X-API-Key": bungieConfig.apiKey, Authorization: "Bearer myaccesstoken" },
         json: true
       });
     });
 
     it("should call the API with params properly built with multiple components", () => {
       const params: BungieAPIParams = { uri: "my/awesome/service/", components: [42, 43] };
-      const apiKey = "myawesomeapikey";
 
-      getFromBungie(params, apiKey);
+      getFromBungie(params, "myaccesstoken");
 
       expect(requestGetStub).to.have.been.calledOnceWith({
         uri: `https://www.bungie.net/Platform/my/awesome/service/?components=42${encodeURIComponent(",")}43`,
-        headers: { "X-API-Key": apiKey },
+        headers: { "X-API-Key": bungieConfig.apiKey, Authorization: "Bearer myaccesstoken" },
         json: true
       });
     });
 
     it("should bubble up the error it get", async () => {
       const params: BungieAPIParams = { uri: "my/awesome/service/", components: [42, 43] };
-      const apiKey = "myawesomeapikey";
       const requestError = new Error("get error");
       requestGetStub.throws(requestError);
-      expect(await getFromBungie(params, apiKey)).to.be.equal(requestError);
+      expect(await getFromBungie(params, bungieConfig.apiKey)).to.be.equal(requestError);
     });
   });
 

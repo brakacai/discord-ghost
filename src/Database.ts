@@ -1,36 +1,53 @@
 import { System, DefaultSystem } from "./System";
 import { getFromBungie, createHierarchyIfNeeded } from "./Utils";
-import { DestinyManifest, ServerResponse, PlatformErrorCodes } from "bungie-api-ts/destiny2";
+import {
+  DestinyManifest,
+  ServerResponse,
+  PlatformErrorCodes,
+  DestinyActivityDefinition,
+  DestinyActivityModeDefinition,
+  DestinyPlaceDefinition,
+  DestinyClassDefinition,
+  DestinyDestinationDefinition
+} from "bungie-api-ts/destiny2";
 import { get } from "request-promise-native";
-import jszip from "jszip";
-import SQLite3 from "better-sqlite3";
-
 const LOCALE = "en";
+
+type DestinyRecord =
+  | DestinyActivityDefinition
+  | DestinyActivityModeDefinition
+  | DestinyPlaceDefinition
+  | DestinyClassDefinition
+  | DestinyDestinationDefinition;
 
 export class Database {
   public static System: System = DefaultSystem;
-  public static DatabaseDriver: Function = SQLite3;
   public static instance: Database;
 
   private databasePath: string;
   private databaseName: string;
-  private apiKey: string;
-  private sqlDatabase: SQLite3.Database;
+  private sqlDatabase: {
+    [table: string]: {
+      [hash: string]: DestinyRecord;
+    };
+  };
 
-  private constructor(databasePath: string, apiKey: string) {
+  private constructor(databasePath: string) {
     this.databasePath = databasePath;
-    this.apiKey = apiKey;
   }
 
   private openDatabase(): void {
-    this.sqlDatabase = Database.DatabaseDriver(
-      Database.System.path.join(this.databasePath, Database.System.path.parse(this.databaseName).base)
+    this.sqlDatabase = JSON.parse(
+      Database.System.fs
+        .readFileSync(Database.System.path.join(this.databasePath, Database.System.path.parse(this.databaseName).base))
+        .toString()
     );
   }
 
-  public getFromDatabase<T>(table: string, hash: number): T {
-    const query = this.sqlDatabase.prepare(`SELECT json FROM ${table} WHERE id=?`).get(hash | 0);
-    return JSON.parse(query.json) as T;
+  public getFromDatabase<T extends DestinyRecord>(table: string, hash: number): T {
+    if (this.sqlDatabase.hasOwnProperty(table) && this.sqlDatabase[table].hasOwnProperty(hash.toString())) {
+      return this.sqlDatabase[table][hash.toString()] as T;
+    }
   }
 
   private async initialize(): Promise<void> {
@@ -45,8 +62,10 @@ export class Database {
     this.openDatabase();
   }
 
-  public static async getInstance(databasePath: string, apiKey: string): Promise<Database> {
-    Database.instance = new Database(databasePath, apiKey);
+  public static async getInstance(databasePath: string): Promise<Database> {
+    Database.instance = new Database(databasePath);
+    console.log(databasePath);
+
     await Database.instance.initialize();
     return Database.instance;
   }
@@ -78,9 +97,7 @@ export class Database {
 
     const databaseFileName = Database.System.path.parse(databaseName).base;
 
-    const rawZip = await get(`https://Bungie.net${databaseName}`, { encoding: null });
-    const zipFile = await jszip.loadAsync(rawZip);
-    const databaseFile = zipFile.files[databaseFileName];
+    const databaseFile = await get(`https://Bungie.net${databaseName}`, { encoding: "utf8" });
 
     createHierarchyIfNeeded(Database.System, this.databasePath);
 
@@ -100,28 +117,17 @@ export class Database {
   }
 
   private async getDatabaseName(): Promise<string> {
-    const manifestResponse = await getFromBungie<ServerResponse<DestinyManifest>>(
-      { uri: "Destiny2/Manifest/" },
-      this.apiKey
-    );
+    const manifestResponse = await getFromBungie<ServerResponse<DestinyManifest>>({ uri: "Destiny2/Manifest/" });
     if (manifestResponse.ErrorCode !== PlatformErrorCodes.Success) {
       const error = new Error("Error while getting the manifest");
       error.stack = JSON.stringify(manifestResponse);
       throw error;
     }
     const manifest = manifestResponse.Response;
-    return manifest.mobileWorldContentPaths[LOCALE];
+    return manifest.jsonWorldContentPaths[LOCALE];
   }
 
-  private async writeDatabaseFile(databaseFile: jszip.JSZipObject, databaseFileName: string): Promise<void> {
-    return new Promise<void>(resolve => {
-      databaseFile.nodeStream().pipe(
-        Database.System.fs
-          .createWriteStream(Database.System.path.join(this.databasePath, databaseFileName))
-          .on("close", () => {
-            resolve();
-          })
-      );
-    });
+  private writeDatabaseFile(databaseFile: string, databaseFileName: string): void {
+    Database.System.fs.writeFileSync(Database.System.path.join(this.databasePath, databaseFileName), databaseFile);
   }
 }

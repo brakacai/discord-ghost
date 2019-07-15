@@ -1,6 +1,7 @@
 import { DestinyComponentType, BungieMembershipType } from "bungie-api-ts/destiny2";
 import { get } from "request-promise-native";
 import { System } from "./System";
+import bungieApplicationSecrets from "../config/bungieApp.json";
 
 const BUNGIE_ENDPOINT = "https://www.bungie.net/Platform";
 /**
@@ -16,15 +17,23 @@ export interface BungieAPIParams {
  * @param params uri and params to call the API
  * @param bungiekey the API Key to authorize the call
  */
-export async function getFromBungie<T>(params: BungieAPIParams, bungiekey: string): Promise<T> {
+export async function getFromBungie<T>(params: BungieAPIParams, bearer?: string): Promise<T> {
   const url = new URL(`${BUNGIE_ENDPOINT}/${params.uri}`);
+  const headers: { "X-API-Key": string; Authorization?: string } = { "X-API-Key": bungieApplicationSecrets.apiKey };
+  if (bearer) {
+    headers.Authorization = `Bearer ${bearer}`;
+  }
   // Normalize components as an array.
   if (params.components) {
     params.components = Array.isArray(params.components) ? params.components : [params.components];
     url.searchParams.set("components", params.components.join(","));
   }
   try {
-    return (await get({ uri: url.toString(), headers: { "X-API-Key": bungiekey }, json: true })) as T;
+    return (await get({
+      uri: url.toString(),
+      headers: headers,
+      json: true
+    })) as T;
   } catch (error) {
     return error;
   }

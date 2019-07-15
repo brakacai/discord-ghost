@@ -1,7 +1,6 @@
 /* istanbul ignore file: techdebt, todo */
 
 import { Database } from "./Database";
-import { ConfigFile } from "./Config";
 import { DiscordRPC } from "./DiscordRPC";
 import { Presence } from "discord-rpc";
 import {
@@ -11,14 +10,16 @@ import {
   DestinyActivityDefinition,
   DestinyActivityModeDefinition,
   DestinyClassDefinition,
+  DestinyLinkedProfilesResponse,
   DestinyActivityModeType,
   DestinyDestinationDefinition
 } from "bungie-api-ts/destiny2/interfaces";
 import { getFromBungie } from "./Utils";
-import { ServerResponse, PlatformErrorCodes } from "bungie-api-ts/common";
+import { ServerResponse, PlatformErrorCodes, BungieMembershipType } from "bungie-api-ts/common";
 import { createHash } from "crypto";
 import { System, DefaultSystem } from "./System";
 import { clearInterval } from "timers";
+import { OAuthClient } from "./OAuth";
 
 interface CharacterComponentsData<T> {
   [characterId: string]: T;
@@ -43,36 +44,66 @@ export class Client {
   private interval: NodeJS.Timeout;
 
   private database: Database;
-  private configFile: ConfigFile;
   private discordRpc: DiscordRPC;
   private refreshRate: number;
+  private oAuthClient: OAuthClient;
+  private membershipPerPlatform: Map<BungieMembershipType, string>;
 
   private lastActivity: string;
 
   public constructor(
     database: Database,
-    configFile: ConfigFile,
     discordRpc: DiscordRPC,
-    refreshRate: number = 10e3,
+    oAuthClient: OAuthClient,
+    refreshRate: number = 15e3,
     startNow: boolean = true
   ) {
     this.database = database;
-    this.configFile = configFile;
+    this.oAuthClient = oAuthClient;
     this.discordRpc = discordRpc;
     this.refreshRate = refreshRate;
-
+    this.membershipPerPlatform = new Map<BungieMembershipType, string>();
     if (startNow) {
       this.start();
     }
   }
 
   private async getCharacterInformation(): Promise<DestinyCharacterActivitiesComponentResponse> {
-    const response = await getFromBungie<ServerResponse<DestinyCharacterActivitiesComponentResponse>>(
+    const agreggatedResponse: DestinyCharacterActivitiesComponentResponse = {
+      characterActivities: { data: {} },
+      characters: { data: {} }
+    };
+    const iterator = await this.membershipPerPlatform.entries();
+
+    while (true) {
+      const it = iterator.next();
+      if (it.done) {
+        break;
+      }
+      const response = await getFromBungie<ServerResponse<DestinyCharacterActivitiesComponentResponse>>(
+        {
+          uri: `Destiny2/${it.value[0]}/Profile/${it.value[1]}`,
+          components: [DestinyComponentType.CharacterActivities, DestinyComponentType.Characters]
+        },
+        await this.oAuthClient.getAccessToken()
+      );
+
+      if (response.ErrorCode !== PlatformErrorCodes.Success) {
+        // TODO
+        debugger;
+      }
+      Object.assign(agreggatedResponse.characterActivities.data, response.Response.characterActivities.data);
+      Object.assign(agreggatedResponse.characters.data, response.Response.characters.data);
+    }
+    return agreggatedResponse;
+  }
+
+  private async getLinkedProfiles(): Promise<DestinyLinkedProfilesResponse> {
+    const response = await getFromBungie<ServerResponse<DestinyLinkedProfilesResponse>>(
       {
-        uri: `Destiny2/${this.configFile.data.platform}/Profile/${this.configFile.data.playerId}`,
-        components: [DestinyComponentType.CharacterActivities, DestinyComponentType.Characters]
+        uri: `Destiny2/-1/Profile/${await this.oAuthClient.getMembershipId()}/LinkedProfiles`
       },
-      this.configFile.data.apiKey
+      await this.oAuthClient.getAccessToken()
     );
 
     if (response.ErrorCode !== PlatformErrorCodes.Success) {
@@ -81,9 +112,14 @@ export class Client {
     return response.Response;
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     if (!this.interval) {
       console.log("Starting service");
+      const linkedProfileResponse = await this.getLinkedProfiles();
+      linkedProfileResponse.profiles.forEach(profile =>
+        this.membershipPerPlatform.set(profile.membershipType, profile.membershipId)
+      );
+
       this.interval = setInterval(async () => {
         let response;
         try {
@@ -174,7 +210,7 @@ export class Client {
         state: "In Orbit",
         largeImageKey: "default_large",
         largeImageText: "In Orbit",
-        startTimestamp: Date.parse(currentActivityData.dateActivityStarted)
+        startTimestamp: Date.now() // Bungie does not restart the timer...
       };
     }
 

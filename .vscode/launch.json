@@ -18,12 +18,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}\\dist\\index.js",
-      "preLaunchTask": "tsc: build - tsconfig.json",
-      "sourceMaps": true,
-      "console": "integratedTerminal",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      "name": "Electron Main",
+      "timeout": 60000,
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-nix",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron-forge-vscode-win.cmd"
+      },
+      // runtimeArgs will be passed directly to your Electron application
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
