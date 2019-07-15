@@ -29,14 +29,14 @@ jobs:
     - stage: Build and Deploy
       if: (NOT type IN (pull_request)) AND tag IS present
       os: linux
-      before_install:
-        - sudo apt-get install libsecret-1-dev
-        - sudo apt-get install fakeroot
-      before_deploy: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      before_script: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
+      script: npm run make
+      before_deploy: zip -r "$TRAVIS_OS_NAME.zip" ./out/make/*
       deploy:
-        provider: script
+        provider: releases
+        api_key: "$GITHUB_TOKEN"
         skip_cleanup: true
-        script: npm run publish
+        file: "$TRAVIS_OS_NAME.zip"
         on:
           all_branches: true # We rely on the stage condition.
     - stage: Build and Deploy
@@ -47,7 +47,7 @@ jobs:
       before_deploy: zip -r "$TRAVIS_OS_NAME.zip" ./out/make/*
       deploy:
         provider: releases
-        api_key: "$GH_TOKEN"
+        api_key: "$GITHUB_TOKEN"
         skip_cleanup: true
         file: "$TRAVIS_OS_NAME.zip"
         on:
