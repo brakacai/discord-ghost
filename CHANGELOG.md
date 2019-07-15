@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/brakacai/discord-ghost/compare/v2.0.0...v2.0.1) (2019-07-15)
+
+
+### Bug Fixes
+
+* **Travis:** Add missing Deb deps ([de9e35b](https://github.com/brakacai/discord-ghost/commit/de9e35b))
+
 # [2.0.0](https://github.com/brakacai/discord-ghost/compare/v1.2.1...v2.0.0) (2019-07-15)
 
 
