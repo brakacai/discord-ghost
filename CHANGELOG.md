@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/brakacai/discord-ghost/compare/v2.0.3...v2.0.4) (2019-07-15)
+
+
+### Bug Fixes
+
+* **Travis:** Go back to zip deploy ([f697112](https://github.com/brakacai/discord-ghost/commit/f697112))
+
 ## [2.0.3](https://github.com/brakacai/discord-ghost/compare/v2.0.2...v2.0.3) (2019-07-15)
 
 
