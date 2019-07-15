@@ -52,6 +52,10 @@ jobs:
     - stage: Build and Deploy
       if: (NOT type IN (pull_request)) AND tag IS present
       os: windows
+      before_install:
+        - yarn config delete proxy
+        - npm config rm proxy
+        - npm config rm https-proxy
       before_deploy: echo "{\"apiKey\":\"$BUNGIE_API_KEY\",\"clientId\":\"$BUNGIE_CLIENT_ID\",\"clientSecret\":\"$BUNGIE_CLIENT_SECRET\"}" > config/bungieApp.json
       deploy:
         provider: script
