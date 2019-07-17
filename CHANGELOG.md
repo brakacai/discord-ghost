@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/brakacai/discord-ghost/compare/v2.0.7...v2.1.0) (2019-07-17)
+
+
+### Features
+
+* **AutoUpdate:** Add autoupdater, need testing tho ([7888ff2](https://github.com/brakacai/discord-ghost/commit/7888ff2))
+
 ## [2.0.7](https://github.com/brakacai/discord-ghost/compare/v2.0.6...v2.0.7) (2019-07-17)
 
 
