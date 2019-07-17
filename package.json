@@ -35,7 +35,7 @@
     "update-electron-app": "^1.5.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "6.0.0-beta.39",
+    "@electron-forge/cli": "6.0.0-beta.42",
     "@electron-forge/maker-deb": "6.0.0-beta.42",
     "@electron-forge/maker-dmg": "^6.0.0-beta.41",
     "@electron-forge/maker-squirrel": "6.0.0-beta.42",
