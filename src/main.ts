@@ -9,7 +9,9 @@ let mainWindow: Electron.BrowserWindow;
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
-
+require("update-electron-app")({
+  repo: "brakacai/discord-ghost"
+});
 const windowsOption = {
   width: 1080,
   minWidth: 680,

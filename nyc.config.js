@@ -3,11 +3,7 @@ const typescriptConfig = require("@istanbuljs/nyc-config-typescript");
 
 module.exports = {
   ...typescriptConfig,
-  exclude: typescriptConfig.exclude.concat([
-    ".mocharc.js",
-    "**/{ava,babel,jest,nyc,rollup,webpack,prettier,release}.config.js",
-    "tools/**/*"
-  ]),
+  exclude: typescriptConfig.exclude.concat([".mocharc.js", "**/*.config.js", "**/webpack.*.js", "tools/**/*"]),
   includes: ["src/**/*.ts"],
   reporter: ["lcov", "text"],
   all: true
