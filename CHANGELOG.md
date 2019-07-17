@@ -1,3 +1,10 @@
+## [2.0.7](https://github.com/brakacai/discord-ghost/compare/v2.0.6...v2.0.7) (2019-07-17)
+
+
+### Bug Fixes
+
+* **Keytar:** Remove keytar, for now ([53488e4](https://github.com/brakacai/discord-ghost/commit/53488e4))
+
 ## [2.0.6](https://github.com/brakacai/discord-ghost/compare/v2.0.5...v2.0.6) (2019-07-15)
 
 
