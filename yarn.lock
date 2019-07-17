@@ -106,6 +106,16 @@
     ora "^3.0.0"
     pretty-ms "^5.0.0"
 
+"@electron-forge/async-ora@6.0.0-beta.42":
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/async-ora/-/async-ora-6.0.0-beta.42.tgz#c013d28950d92ec19681f0d96ddc65af2ad19bed"
+  dependencies:
+    colors "^1.2.0"
+    debug "^4.1.0"
+    log-symbols "^3.0.0"
+    ora "^3.0.0"
+    pretty-ms "^5.0.0"
+
 "@electron-forge/cli@6.0.0-beta.39":
   version "6.0.0-beta.39"
   resolved "https://registry.yarnpkg.com/@electron-forge/cli/-/cli-6.0.0-beta.39.tgz#2475404c3c089368618b6c7fedc66b08bc432791"
@@ -230,6 +240,13 @@
     "@electron-forge/shared-types" "6.0.0-beta.41"
     fs-extra "^8.1.0"
 
+"@electron-forge/maker-base@6.0.0-beta.42":
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-base/-/maker-base-6.0.0-beta.42.tgz#b1b26da86abbf35bb7d80aae0f7f1c6aa229b46f"
+  dependencies:
+    "@electron-forge/shared-types" "6.0.0-beta.42"
+    fs-extra "^8.1.0"
+
 "@electron-forge/maker-deb@6.0.0-beta.39":
   version "6.0.0-beta.39"
   resolved "https://registry.yarnpkg.com/@electron-forge/maker-deb/-/maker-deb-6.0.0-beta.39.tgz#3b7e63359709802c4699fab38261a4ab0b11f972"
@@ -249,13 +266,13 @@
   optionalDependencies:
     electron-installer-dmg "^3.0.0"
 
-"@electron-forge/maker-squirrel@6.0.0-beta.39":
-  version "6.0.0-beta.39"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-squirrel/-/maker-squirrel-6.0.0-beta.39.tgz#931cb083595a55a97a1c926d347177c2c1ecc048"
+"@electron-forge/maker-squirrel@6.0.0-beta.42":
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-squirrel/-/maker-squirrel-6.0.0-beta.42.tgz#e472dd3f54d1a1470f818ef0790752e46886234f"
   dependencies:
-    "@electron-forge/maker-base" "6.0.0-beta.39"
-    "@electron-forge/shared-types" "6.0.0-beta.39"
-    fs-extra "^7.0.0"
+    "@electron-forge/maker-base" "6.0.0-beta.42"
+    "@electron-forge/shared-types" "6.0.0-beta.42"
+    fs-extra "^8.1.0"
   optionalDependencies:
     electron-winstaller "^3.0.4"
 
@@ -325,6 +342,15 @@
   resolved "https://registry.yarnpkg.com/@electron-forge/shared-types/-/shared-types-6.0.0-beta.41.tgz#7a264941a3f7d84bd051d1655d2c86db0873da65"
   dependencies:
     "@electron-forge/async-ora" "6.0.0-beta.41"
+    "@types/electron-packager" "^14.0.0"
+    electron-rebuild "^1.8.5"
+    ora "^3.0.0"
+
+"@electron-forge/shared-types@6.0.0-beta.42":
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/shared-types/-/shared-types-6.0.0-beta.42.tgz#b2e1ba20479cbadbd3b58b868a8f8bed4f79534e"
+  dependencies:
+    "@electron-forge/async-ora" "6.0.0-beta.42"
     "@types/electron-packager" "^14.0.0"
     electron-rebuild "^1.8.5"
     ora "^3.0.0"
