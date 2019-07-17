@@ -5,7 +5,6 @@ import open from "open";
 import { ChildProcess } from "child_process";
 
 import bungieApplicationSecrets from "../config/bungieApp.json";
-import * as keytar from "keytar";
 import { clearTimeout } from "timers";
 
 interface TokenResponse {
@@ -19,9 +18,6 @@ interface TokenResponse {
 export class OAuthClient {
   public static System: System = DefaultSystem;
   private static instance: OAuthClient;
-  private static keytarRefeshService = "discord-ghost-token";
-  private static keytarMembershipService = "discord-ghost-userid";
-  private static keytarExpirationService = "discord-ghost-expiration";
 
   private state: string;
   private accessToken: string;
@@ -44,18 +40,26 @@ export class OAuthClient {
 
   public static async getInstance(): Promise<OAuthClient> {
     if (!this.instance) {
-      const refreshToken = await keytar.getPassword(
-        OAuthClient.keytarRefeshService,
-        OAuthClient.System.os.userInfo().username
-      );
-      const refreshTokenExpiration = await keytar.getPassword(
-        OAuthClient.keytarExpirationService,
-        OAuthClient.System.os.userInfo().username
-      );
-      const membershipId = await keytar.getPassword(
-        OAuthClient.keytarMembershipService,
-        OAuthClient.System.os.userInfo().username
-      );
+      try {
+        this.System.fs.mkdirSync(this.System.path.join(this.System.os.homedir(), "discord-ghost"));
+      } catch (error) {
+        // Just ensure the dir is there, will check accessibility with the files
+      }
+      let userInfo: { token: string; expiration: string; playerId: string };
+      try {
+        userInfo = JSON.parse(
+          this.System.fs
+            .readFileSync(this.System.path.join(this.System.os.homedir(), "discord-ghost", "userSettings.json"))
+            .toString()
+        ) as { token: string; expiration: string; playerId: string };
+      } catch (error) {}
+      if (!userInfo) {
+        this.instance = new OAuthClient();
+        return this.instance;
+      }
+      const refreshToken: string = userInfo.token;
+      const refreshTokenExpiration: string = userInfo.expiration;
+      const membershipId: string = userInfo.playerId;
       if (refreshToken && refreshTokenExpiration && membershipId) {
         this.instance = new OAuthClient(refreshToken, parseInt(refreshTokenExpiration, 10), membershipId);
       } else {
@@ -112,21 +116,22 @@ export class OAuthClient {
     this.refreshToken = getNewAccessTokenResponse["refresh_token"];
     this.accessToken = getNewAccessTokenResponse["access_token"];
     this._membershipId = getNewAccessTokenResponse["membership_id"];
-    await keytar.setPassword(
-      OAuthClient.keytarRefeshService,
-      OAuthClient.System.os.userInfo().username,
-      this.refreshToken
-    );
-    await keytar.setPassword(
-      OAuthClient.keytarExpirationService,
-      OAuthClient.System.os.userInfo().username,
-      this.refreshTokenExpiration.valueOf().toString()
-    );
-    await keytar.setPassword(
-      OAuthClient.keytarMembershipService,
-      OAuthClient.System.os.userInfo().username,
-      this._membershipId
-    );
+    const userInfo: { token: string; expiration: string; playerId: string } = {
+      token: this.refreshToken,
+      expiration: this.refreshTokenExpiration.valueOf().toString(),
+      playerId: this._membershipId
+    };
+    try {
+      OAuthClient.System.fs.mkdirSync(OAuthClient.System.path.join(OAuthClient.System.os.homedir(), "discord-ghost"));
+    } catch (error) {
+      // Just ensure the dir is there, will check accessibility with the files
+    }
+    try {
+      OAuthClient.System.fs.writeFileSync(
+        OAuthClient.System.path.join(OAuthClient.System.os.homedir(), "discord-ghost", "userSettings.json"),
+        JSON.stringify(userInfo)
+      );
+    } catch (error) {}
   }
 
   private scheduleRefresh(): void {

@@ -36,7 +36,6 @@ require("update-electron-app")();
 
 app.on("ready", () => {
   createWindow();
-  console.log("foo");
   foo();
   try {
   } catch (error) {
@@ -45,19 +44,18 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", () => {
-  return;
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 
 app.on("second-instance", (_event, argv) => {
-  const oAuthredirectUrl = new URL(argv.pop());
+  try {
+    const oAuthredirectUrl = new URL(argv.pop());
 
-  OAuthClient.notifyAuthorizationCodeReturn({
-    code: oAuthredirectUrl.searchParams.get("code"),
-    state: oAuthredirectUrl.searchParams.get("state")
-  });
+    OAuthClient.notifyAuthorizationCodeReturn({
+      code: oAuthredirectUrl.searchParams.get("code"),
+      state: oAuthredirectUrl.searchParams.get("state")
+    });
+  } catch (error) {}
   if (mainWindow) {
     if (mainWindow.isMinimized()) {
       mainWindow.restore();

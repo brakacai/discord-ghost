@@ -91,9 +91,10 @@ export class Client {
       if (response.ErrorCode !== PlatformErrorCodes.Success) {
         // TODO
         debugger;
+      } else {
+        Object.assign(agreggatedResponse.characterActivities.data, response.Response.characterActivities.data);
+        Object.assign(agreggatedResponse.characters.data, response.Response.characters.data);
       }
-      Object.assign(agreggatedResponse.characterActivities.data, response.Response.characterActivities.data);
-      Object.assign(agreggatedResponse.characters.data, response.Response.characters.data);
     }
     return agreggatedResponse;
   }
@@ -158,10 +159,11 @@ export class Client {
 
   private getCurrentCharacterId(response: DestinyCharacterActivitiesComponentResponse): string {
     let currentCharacterId: string;
-    if (!response.characterActivities.data) {
+    if (!response.characterActivities || !response.characterActivities.data) {
       console.warn(
         "No character activities found, try to modify your privacy settings (see https://github.com/brakacai/discord-ghost/docs/PrivacySettings.md)"
       );
+      return null;
     }
     Object.keys(response.characterActivities.data).forEach(characterId => {
       if (this.isCharacterMoreRecent(currentCharacterId, response, characterId)) {
