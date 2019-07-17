@@ -233,13 +233,6 @@
     "@electron-forge/shared-types" "6.0.0-beta.39"
     fs-extra "^7.0.0"
 
-"@electron-forge/maker-base@6.0.0-beta.41":
-  version "6.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-base/-/maker-base-6.0.0-beta.41.tgz#f284f5edf4e7a754898c48308781396b0e7d29ef"
-  dependencies:
-    "@electron-forge/shared-types" "6.0.0-beta.41"
-    fs-extra "^8.1.0"
-
 "@electron-forge/maker-base@6.0.0-beta.42":
   version "6.0.0-beta.42"
   resolved "https://registry.yarnpkg.com/@electron-forge/maker-base/-/maker-base-6.0.0-beta.42.tgz#b1b26da86abbf35bb7d80aae0f7f1c6aa229b46f"
@@ -257,11 +250,11 @@
     electron-installer-debian "^1.2.0"
 
 "@electron-forge/maker-dmg@^6.0.0-beta.41":
-  version "6.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-dmg/-/maker-dmg-6.0.0-beta.41.tgz#736efe174388da916dffd40df4418460e10f62b7"
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-dmg/-/maker-dmg-6.0.0-beta.42.tgz#649b026f21c919d4d573c70b522bf6ba5badd522"
   dependencies:
-    "@electron-forge/maker-base" "6.0.0-beta.41"
-    "@electron-forge/shared-types" "6.0.0-beta.41"
+    "@electron-forge/maker-base" "6.0.0-beta.42"
+    "@electron-forge/shared-types" "6.0.0-beta.42"
     fs-extra "^8.1.0"
   optionalDependencies:
     electron-installer-dmg "^3.0.0"
