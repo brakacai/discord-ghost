@@ -280,11 +280,11 @@
     pify "^4.0.0"
 
 "@electron-forge/plugin-auto-unpack-natives@^6.0.0-beta.41":
-  version "6.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-auto-unpack-natives/-/plugin-auto-unpack-natives-6.0.0-beta.41.tgz#4f680238991d0eb6aa7414361d95cc141c03da44"
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-auto-unpack-natives/-/plugin-auto-unpack-natives-6.0.0-beta.42.tgz#1e4d041caa36b1cc297d552a25e84b3777a70a55"
   dependencies:
-    "@electron-forge/plugin-base" "6.0.0-beta.41"
-    "@electron-forge/shared-types" "6.0.0-beta.41"
+    "@electron-forge/plugin-base" "6.0.0-beta.42"
+    "@electron-forge/shared-types" "6.0.0-beta.42"
 
 "@electron-forge/plugin-base@6.0.0-beta.39":
   version "6.0.0-beta.39"
@@ -292,11 +292,11 @@
   dependencies:
     "@electron-forge/shared-types" "6.0.0-beta.39"
 
-"@electron-forge/plugin-base@6.0.0-beta.41":
-  version "6.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-base/-/plugin-base-6.0.0-beta.41.tgz#1d2fcd0de30c3d47d8a17735c6876056d3453b4b"
+"@electron-forge/plugin-base@6.0.0-beta.42":
+  version "6.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-base/-/plugin-base-6.0.0-beta.42.tgz#57a129d5018dc90ff6716ecac796ba493fb6be45"
   dependencies:
-    "@electron-forge/shared-types" "6.0.0-beta.41"
+    "@electron-forge/shared-types" "6.0.0-beta.42"
 
 "@electron-forge/plugin-base@6.0.0-beta.42":
   version "6.0.0-beta.42"
