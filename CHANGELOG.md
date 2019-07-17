@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/brakacai/discord-ghost/compare/v2.1.0...v2.1.1) (2019-07-17)
+
+
+### Bug Fixes
+
+* **AutoUpdate:** Bump version (test) ([52d13e8](https://github.com/brakacai/discord-ghost/commit/52d13e8))
+
 # [2.1.0](https://github.com/brakacai/discord-ghost/compare/v2.0.7...v2.1.0) (2019-07-17)
 
 
