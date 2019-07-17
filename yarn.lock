@@ -1461,8 +1461,8 @@ builtins@^1.0.3:
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
 
 bungie-api-ts@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-2.0.0.tgz#3c34a5d1438ac2ffee63a3cb62542ed093015977"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-2.1.0.tgz#bc70d09d6e860f86cc75bc878d447617fd75f86b"
 
 byline@^5.0.0:
   version "5.0.0"
