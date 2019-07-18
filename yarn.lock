@@ -238,11 +238,11 @@
     electron-installer-debian "^2.0.0"
 
 "@electron-forge/maker-dmg@^6.0.0-beta.41":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-dmg/-/maker-dmg-6.0.0-beta.42.tgz#649b026f21c919d4d573c70b522bf6ba5badd522"
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-dmg/-/maker-dmg-6.0.0-beta.43.tgz#6aec2fac1f562dfc38ce840925e715dc0766cc39"
   dependencies:
-    "@electron-forge/maker-base" "6.0.0-beta.42"
-    "@electron-forge/shared-types" "6.0.0-beta.42"
+    "@electron-forge/maker-base" "6.0.0-beta.43"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
     fs-extra "^8.1.0"
   optionalDependencies:
     electron-installer-dmg "^3.0.0"
