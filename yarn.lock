@@ -96,6 +96,16 @@
     ora "^3.0.0"
     pretty-ms "^5.0.0"
 
+"@electron-forge/async-ora@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/async-ora/-/async-ora-6.0.0-beta.43.tgz#0d015d998660eaf7cb3aa8ff74ae826f1c187bd7"
+  dependencies:
+    colors "^1.2.0"
+    debug "^4.1.0"
+    log-symbols "^3.0.0"
+    ora "^3.0.0"
+    pretty-ms "^5.0.0"
+
 "@electron-forge/cli@6.0.0-beta.42":
   version "6.0.0-beta.42"
   resolved "https://registry.yarnpkg.com/@electron-forge/cli/-/cli-6.0.0-beta.42.tgz#3cd2d77f0523c2470313884bf24c3035b155367d"
@@ -262,14 +272,20 @@
   dependencies:
     "@electron-forge/shared-types" "6.0.0-beta.42"
 
-"@electron-forge/plugin-webpack@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-webpack/-/plugin-webpack-6.0.0-beta.42.tgz#fea2fad636fadb60e037e257b1e31ccf0ae213cf"
+"@electron-forge/plugin-base@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-base/-/plugin-base-6.0.0-beta.43.tgz#7a5181fe245a4387ad609a725a01bb6666d959a5"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@electron-forge/plugin-base" "6.0.0-beta.42"
-    "@electron-forge/shared-types" "6.0.0-beta.42"
-    "@electron-forge/web-multi-logger" "6.0.0-beta.42"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
+
+"@electron-forge/plugin-webpack@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/plugin-webpack/-/plugin-webpack-6.0.0-beta.43.tgz#61a96b6af358e2111442c8763917cd8444de8536"
+  dependencies:
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@electron-forge/plugin-base" "6.0.0-beta.43"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
+    "@electron-forge/web-multi-logger" "6.0.0-beta.43"
     cross-spawn-promise "^0.10.1"
     debug "^4.1.0"
     express "^4.17.1"
@@ -294,6 +310,15 @@
     electron-rebuild "^1.8.5"
     ora "^3.0.0"
 
+"@electron-forge/shared-types@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/shared-types/-/shared-types-6.0.0-beta.43.tgz#45eb41170599a41c1441fb6848ce591f42addeb6"
+  dependencies:
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@types/electron-packager" "^14.0.0"
+    electron-rebuild "^1.8.5"
+    ora "^3.0.0"
+
 "@electron-forge/template-webpack@6.0.0-beta.42":
   version "6.0.0-beta.42"
   resolved "https://registry.yarnpkg.com/@electron-forge/template-webpack/-/template-webpack-6.0.0-beta.42.tgz#d6b5af43dc14ff89c3b2747b1e32bda623c6eb03"
@@ -302,9 +327,9 @@
     "@electron-forge/shared-types" "6.0.0-beta.42"
     fs-extra "^8.1.0"
 
-"@electron-forge/web-multi-logger@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/web-multi-logger/-/web-multi-logger-6.0.0-beta.42.tgz#ec9a7935bde81f87c45f6f64891dd887d3fd5545"
+"@electron-forge/web-multi-logger@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/web-multi-logger/-/web-multi-logger-6.0.0-beta.43.tgz#d1256bc48afaf262e28472972763164008a150d2"
   dependencies:
     express "^4.17.1"
     express-ws "^4.0.0"
