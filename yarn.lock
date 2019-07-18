@@ -247,12 +247,12 @@
   optionalDependencies:
     electron-installer-dmg "^3.0.0"
 
-"@electron-forge/maker-squirrel@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-squirrel/-/maker-squirrel-6.0.0-beta.42.tgz#e472dd3f54d1a1470f818ef0790752e46886234f"
+"@electron-forge/maker-squirrel@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-squirrel/-/maker-squirrel-6.0.0-beta.43.tgz#a272ec7ee0fefb04e65376d7ced8f65633ec9ba2"
   dependencies:
-    "@electron-forge/maker-base" "6.0.0-beta.42"
-    "@electron-forge/shared-types" "6.0.0-beta.42"
+    "@electron-forge/maker-base" "6.0.0-beta.43"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
     fs-extra "^8.1.0"
   optionalDependencies:
     electron-winstaller "^3.0.4"
