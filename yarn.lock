@@ -106,12 +106,12 @@
     ora "^3.0.0"
     pretty-ms "^5.0.0"
 
-"@electron-forge/cli@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/cli/-/cli-6.0.0-beta.42.tgz#3cd2d77f0523c2470313884bf24c3035b155367d"
+"@electron-forge/cli@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/cli/-/cli-6.0.0-beta.43.tgz#2bfebc034fd8a4b3dbeb2a8cd811685f45b9c3e2"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@electron-forge/core" "6.0.0-beta.42"
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@electron-forge/core" "6.0.0-beta.43"
     colors "^1.2.0"
     commander "^2.9.0"
     debug "^4.1.0"
@@ -119,22 +119,22 @@
     inquirer "^6.5.0"
     semver "^6.2.0"
 
-"@electron-forge/core@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/core/-/core-6.0.0-beta.42.tgz#0ba690370c36087baf10ee4f96cb1ae18b5f422f"
+"@electron-forge/core@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/core/-/core-6.0.0-beta.43.tgz#0ad2d5937366b9147f7c857b422bdc674a51fbc5"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@electron-forge/installer-base" "6.0.0-beta.42"
-    "@electron-forge/installer-deb" "6.0.0-beta.42"
-    "@electron-forge/installer-dmg" "6.0.0-beta.42"
-    "@electron-forge/installer-exe" "6.0.0-beta.42"
-    "@electron-forge/installer-rpm" "6.0.0-beta.42"
-    "@electron-forge/installer-zip" "6.0.0-beta.42"
-    "@electron-forge/maker-base" "6.0.0-beta.42"
-    "@electron-forge/plugin-base" "6.0.0-beta.42"
-    "@electron-forge/publisher-base" "6.0.0-beta.42"
-    "@electron-forge/shared-types" "6.0.0-beta.42"
-    "@electron-forge/template-webpack" "6.0.0-beta.42"
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@electron-forge/installer-base" "6.0.0-beta.43"
+    "@electron-forge/installer-deb" "6.0.0-beta.43"
+    "@electron-forge/installer-dmg" "6.0.0-beta.43"
+    "@electron-forge/installer-exe" "6.0.0-beta.43"
+    "@electron-forge/installer-rpm" "6.0.0-beta.43"
+    "@electron-forge/installer-zip" "6.0.0-beta.43"
+    "@electron-forge/maker-base" "6.0.0-beta.43"
+    "@electron-forge/plugin-base" "6.0.0-beta.43"
+    "@electron-forge/publisher-base" "6.0.0-beta.43"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
+    "@electron-forge/template-webpack" "6.0.0-beta.43"
     "@electron/get" "^1.3.1"
     colors "^1.2.0"
     cross-spawn-promise "^0.10.1"
@@ -156,61 +156,61 @@
     username "^5.1.0"
     yarn-or-npm "^2.0.2"
 
-"@electron-forge/installer-base@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-base/-/installer-base-6.0.0-beta.42.tgz#5c34c6d3ef708d18aa2fc70bcdea7f1f6c26a1ec"
+"@electron-forge/installer-base@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-base/-/installer-base-6.0.0-beta.43.tgz#6b618c5623bc403e6b605a5737a48dbd6392e5f7"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
+    "@electron-forge/async-ora" "6.0.0-beta.43"
 
-"@electron-forge/installer-darwin@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-darwin/-/installer-darwin-6.0.0-beta.42.tgz#1dd712829fe11a08666e879dace2d85fbf4c3df3"
+"@electron-forge/installer-darwin@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-darwin/-/installer-darwin-6.0.0-beta.43.tgz#2e6b6e40363046dfdcf9496c3c6365420b81d087"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@electron-forge/installer-base" "6.0.0-beta.42"
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@electron-forge/installer-base" "6.0.0-beta.43"
     fs-extra "^8.1.0"
     sudo-prompt "^9.0.0"
 
-"@electron-forge/installer-deb@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-deb/-/installer-deb-6.0.0-beta.42.tgz#72f83e7916f7df74ebc8043557656cf4aef32b88"
+"@electron-forge/installer-deb@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-deb/-/installer-deb-6.0.0-beta.43.tgz#1082b7dcab0e70c1046425a0cfd66335881c5067"
   dependencies:
-    "@electron-forge/installer-linux" "6.0.0-beta.42"
+    "@electron-forge/installer-linux" "6.0.0-beta.43"
 
-"@electron-forge/installer-dmg@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-dmg/-/installer-dmg-6.0.0-beta.42.tgz#b597ecaf12d9fc2dee1da8050f8089251005c0a2"
+"@electron-forge/installer-dmg@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-dmg/-/installer-dmg-6.0.0-beta.43.tgz#adcfee78da441858fa41440fd872a220adc5775d"
   dependencies:
-    "@electron-forge/installer-darwin" "6.0.0-beta.42"
+    "@electron-forge/installer-darwin" "6.0.0-beta.43"
     cross-spawn-promise "^0.10.1"
     debug "^4.1.0"
     fs-extra "^8.1.0"
 
-"@electron-forge/installer-exe@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-exe/-/installer-exe-6.0.0-beta.42.tgz#20d809d1260b9591be75fa04d009a95da65c2545"
+"@electron-forge/installer-exe@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-exe/-/installer-exe-6.0.0-beta.43.tgz#b24a61f6c6b17546420b95210bed09a0d70b68b0"
   dependencies:
-    "@electron-forge/installer-base" "6.0.0-beta.42"
+    "@electron-forge/installer-base" "6.0.0-beta.43"
     open "^6.4.0"
 
-"@electron-forge/installer-linux@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-linux/-/installer-linux-6.0.0-beta.42.tgz#3f042ab4c355b1150580d9d8ac9c1f78e446bcb3"
+"@electron-forge/installer-linux@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-linux/-/installer-linux-6.0.0-beta.43.tgz#efd377ac8320316ee3f382ce5fd149f52b3fef28"
   dependencies:
-    "@electron-forge/installer-base" "6.0.0-beta.42"
+    "@electron-forge/installer-base" "6.0.0-beta.43"
     sudo-prompt "^9.0.0"
 
-"@electron-forge/installer-rpm@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-rpm/-/installer-rpm-6.0.0-beta.42.tgz#d60a939a8fb0088e175408b86b5cf96eda5fc93e"
+"@electron-forge/installer-rpm@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-rpm/-/installer-rpm-6.0.0-beta.43.tgz#a5d8262cb044046de8747c092d31e1329edcdf69"
   dependencies:
-    "@electron-forge/installer-linux" "6.0.0-beta.42"
+    "@electron-forge/installer-linux" "6.0.0-beta.43"
 
-"@electron-forge/installer-zip@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/installer-zip/-/installer-zip-6.0.0-beta.42.tgz#db5914ec82d029cb6e1b6384c4915f0276abff55"
+"@electron-forge/installer-zip@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/installer-zip/-/installer-zip-6.0.0-beta.43.tgz#30b0371672900a91af1551829c5d50afe4adbb18"
   dependencies:
-    "@electron-forge/installer-darwin" "6.0.0-beta.42"
+    "@electron-forge/installer-darwin" "6.0.0-beta.43"
     cross-spawn-promise "^0.10.1"
     fs-extra "^8.1.0"
 
@@ -304,9 +304,9 @@
     webpack-hot-middleware "^2.25.0"
     webpack-merge "^4.1.1"
 
-"@electron-forge/publisher-base@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/publisher-base/-/publisher-base-6.0.0-beta.42.tgz#b5d0a1627bf0c45fd08920b8f4866a487844d8a7"
+"@electron-forge/publisher-base@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/publisher-base/-/publisher-base-6.0.0-beta.43.tgz#4d084f7cf9367637073d7cca9f2f831e56c6a763"
 
 "@electron-forge/shared-types@6.0.0-beta.42":
   version "6.0.0-beta.42"
@@ -326,12 +326,12 @@
     electron-rebuild "^1.8.5"
     ora "^3.0.0"
 
-"@electron-forge/template-webpack@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/template-webpack/-/template-webpack-6.0.0-beta.42.tgz#d6b5af43dc14ff89c3b2747b1e32bda623c6eb03"
+"@electron-forge/template-webpack@6.0.0-beta.43":
+  version "6.0.0-beta.43"
+  resolved "https://registry.yarnpkg.com/@electron-forge/template-webpack/-/template-webpack-6.0.0-beta.43.tgz#4fda3e151282eda2bc0455faef1b0feb011a6167"
   dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@electron-forge/shared-types" "6.0.0-beta.42"
+    "@electron-forge/async-ora" "6.0.0-beta.43"
+    "@electron-forge/shared-types" "6.0.0-beta.43"
     fs-extra "^8.1.0"
 
 "@electron-forge/web-multi-logger@6.0.0-beta.43":
