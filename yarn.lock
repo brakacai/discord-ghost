@@ -86,16 +86,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@electron-forge/async-ora@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/async-ora/-/async-ora-6.0.0-beta.42.tgz#c013d28950d92ec19681f0d96ddc65af2ad19bed"
-  dependencies:
-    colors "^1.2.0"
-    debug "^4.1.0"
-    log-symbols "^3.0.0"
-    ora "^3.0.0"
-    pretty-ms "^5.0.0"
-
 "@electron-forge/async-ora@6.0.0-beta.43":
   version "6.0.0-beta.43"
   resolved "https://registry.yarnpkg.com/@electron-forge/async-ora/-/async-ora-6.0.0-beta.43.tgz#0d015d998660eaf7cb3aa8ff74ae826f1c187bd7"
@@ -214,13 +204,6 @@
     cross-spawn-promise "^0.10.1"
     fs-extra "^8.1.0"
 
-"@electron-forge/maker-base@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/maker-base/-/maker-base-6.0.0-beta.42.tgz#b1b26da86abbf35bb7d80aae0f7f1c6aa229b46f"
-  dependencies:
-    "@electron-forge/shared-types" "6.0.0-beta.42"
-    fs-extra "^8.1.0"
-
 "@electron-forge/maker-base@6.0.0-beta.43":
   version "6.0.0-beta.43"
   resolved "https://registry.yarnpkg.com/@electron-forge/maker-base/-/maker-base-6.0.0-beta.43.tgz#73c0b9ee3eef7244805defb495d9f93b254f1bd2"
@@ -301,15 +284,6 @@
 "@electron-forge/publisher-base@6.0.0-beta.43":
   version "6.0.0-beta.43"
   resolved "https://registry.yarnpkg.com/@electron-forge/publisher-base/-/publisher-base-6.0.0-beta.43.tgz#4d084f7cf9367637073d7cca9f2f831e56c6a763"
-
-"@electron-forge/shared-types@6.0.0-beta.42":
-  version "6.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@electron-forge/shared-types/-/shared-types-6.0.0-beta.42.tgz#b2e1ba20479cbadbd3b58b868a8f8bed4f79534e"
-  dependencies:
-    "@electron-forge/async-ora" "6.0.0-beta.42"
-    "@types/electron-packager" "^14.0.0"
-    electron-rebuild "^1.8.5"
-    ora "^3.0.0"
 
 "@electron-forge/shared-types@6.0.0-beta.43":
   version "6.0.0-beta.43"
@@ -3844,9 +3818,10 @@ humanize-plus@^1.8.1:
   resolved "https://registry.yarnpkg.com/humanize-plus/-/humanize-plus-1.8.2.tgz#a65b34459ad6367adbb3707a82a3c9f916167030"
 
 husky@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-3.0.0.tgz#de63821a7049dc412b1afd753c259e2f6e227562"
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-3.0.1.tgz#06152c28e129622b05fa09c494209de8cf2dfb59"
   dependencies:
+    chalk "^2.4.2"
     cosmiconfig "^5.2.1"
     execa "^1.0.0"
     get-stdin "^7.0.0"
