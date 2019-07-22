@@ -2604,8 +2604,8 @@ electron-winstaller@^3.0.4:
     temp "^0.9.0"
 
 electron@^6.0.0-beta.13:
-  version "6.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.0-beta.14.tgz#5cd54915c573a753bb98195a6395c172d5b4f555"
+  version "6.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.0-beta.15.tgz#c4825ceee46086ecdf3b12c19d660abb13f06ebe"
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
