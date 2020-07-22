@@ -48,7 +48,7 @@
     "@semantic-release/git": "^7.0.16",
     "@types/chai": "^4.1.7",
     "@types/discord-rpc": "^3.0.1",
-    "@types/inquirer": "^6.0.3",
+    "@types/inquirer": "^7.3.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.6.2",
     "@types/request": "^2.48.1",

@@ -590,9 +590,9 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/inquirer@^6.0.3":
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@types/inquirer/-/inquirer-6.0.3.tgz#597b3c1aa4a575899841ab99bb4f1774d0b8c090"
+"@types/inquirer@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@types/inquirer/-/inquirer-7.3.0.tgz#a1233632ea6249f14eb481dae91138e747b85664"
   dependencies:
     "@types/through" "*"
     rxjs "^6.4.0"
